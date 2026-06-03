@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StudyFor - Master Your Exams</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6c3ce1;
+    --primary-dark: #5429c7;
+    --primary-light: #8b5cf6;
+    --accent: #f59e0b;
+    --dark: #0f0a1e;
+    --dark2: #1a1230;
+    --dark3: #241a3a;
+    --text: #e2d9f3;
+    --text-muted: #9d8ec4;
+    --card-bg: rgba(255,255,255,0.05);
+    --border: rgba(255,255,255,0.1);
+    --gradient: linear-gradient(135deg, #6c3ce1, #a855f7, #ec4899);
+    --gradient2: linear-gradient(135deg, #0f0a1e 0%, #1a1230 50%, #0f0a1e 100%);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 16px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(15,10,30,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  nav.scrolled { padding: 12px 40px; background: rgba(15,10,30,0.97); }
+  .nav-logo {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500;
+    transition: color 0.2s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 2px; background: var(--primary-light); transform: scaleX(0);
+    transition: transform 0.3s; border-radius: 2px;
+  }
+  .nav-links a:hover { color: #fff; }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta { display: flex; gap: 12px; }
+  .btn-primary {
+    padding: 8px 20px; border-radius: 8px; border: none;
+    background: var(--gradient); color: #fff; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(108,60,225,0.4); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 40px 80px;
+    position: relative; overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,60,225,0.25) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 80% 80%, rgba(168,85,247,0.15) 0%, transparent 60%),
+                var(--dark);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px; border-radius: 50px;
+    background: rgba(108,60,225,0.2); border: 1px solid rgba(108,60,225,0.4);
+    font-size: 13px; color: #c4b5fd; margin-bottom: 28px;
+    animation: fadeDown 0.8s ease both;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #a855f7; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.3); } }
+  .hero h1 {
+    font-size: clamp(42px, 7vw, 88px); font-weight: 800; line-height: 1.05;
+    letter-spacing: -2px; margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero h1 span {
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px); color: var(--text-muted); max-width: 580px;
+    margin: 0 auto 40px; line-height: 1.7;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s 0.3s ease both; }
+  .btn-lg {
+    padding: 16px 36px; border-radius: 12px; font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all 0.25s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-lg.primary { background: var(--gradient); color: #fff; border: none; }
+  .btn-lg.primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(108,60,225,0.45); }
+  .btn-lg.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-lg.ghost:hover { border-color: var(--primary-light); background: rgba(108,60,225,0.1); }
+  .hero-stats {
+    display: flex; gap: 48px; justify-content: center; margin-top: 64px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 32px; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  /* FLOATING CARDS */
+  .hero-visual {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    pointer-events: none; opacity: 0.6;
+  }
+  .hero-visual.left { left: -60px; animation: float 6s ease-in-out infinite; }
+  .hero-visual.right { right: -60px; animation: float 6s 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(-50%) translateX(0);} 50%{transform:translateY(calc(-50% - 20px)) translateX(8px);} }
+  .float-card {
+    background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+    border-radius: 16px; padding: 20px; width: 200px; backdrop-filter: blur(10px);
+  }
+  .float-card .fc-label { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+  .float-card .fc-val { font-size: 22px; font-weight: 700; color: #fff; }
+  .fc-graph { display: flex; align-items: flex-end; gap: 4px; margin-top: 12px; height: 36px; }
+  .fc-bar { border-radius: 3px 3px 0 0; flex: 1; background: var(--primary); opacity: 0.7; }
+
+  /* SECTIONS */
+  section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    display: inline-block; padding: 4px 14px; border-radius: 50px;
+    background: rgba(108,60,225,0.2); border: 1px solid rgba(108,60,225,0.35);
+    font-size: 12px; font-weight: 600; color: #c4b5fd; letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title { font-size: clamp(30px,4vw,52px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+  .section-sub { font-size: 18px; color: var(--text-muted); max-width: 560px; line-height: 1.7; }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px; margin-top: 64px;
+  }
+  .feature-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px; position: relative; overflow: hidden;
+    transition: all 0.3s; cursor: default;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: var(--gradient); opacity: 0; transition: opacity 0.3s;
+  }
+  .feature-card:hover { transform: translateY(-4px); border-color: rgba(108,60,225,0.4); background: rgba(255,255,255,0.07); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(108,60,225,0.3), rgba(168,85,247,0.2));
+    border: 1px solid rgba(108,60,225,0.3);
+  }
+  .feature-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+  .feature-card p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+
+  /* HOW IT WORKS */
+  .how-section { background: linear-gradient(180deg, transparent, rgba(108,60,225,0.05) 50%, transparent); }
+  .steps { display: flex; gap: 0; margin-top: 64px; position: relative; flex-wrap: wrap; }
+  .steps::before {
+    content: ''; position: absolute; top: 40px; left: 60px; right: 60px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary), var(--primary-light), transparent);
+    opacity: 0.4;
+  }
+  .step { flex: 1; min-width: 200px; text-align: center; padding: 0 24px; }
+  .step-num {
+    width: 80px; height: 80px; border-radius: 50%; background: var(--dark2);
+    border: 2px solid rgba(108,60,225,0.5); display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px; font-size: 28px; font-weight: 800;
+    color: #c4b5fd; position: relative; z-index: 1;
+    transition: all 0.3s;
+  }
+  .step:hover .step-num { background: rgba(108,60,225,0.2); border-color: var(--primary-light); transform: scale(1.1); }
+  .step h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .step p { font-size: 14px; color: var(--text-muted); }
+
+  /* SUBJECTS / BRANDS area */
+  .brands-section { text-align: center; padding: 60px 40px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .brands-label { font-size: 13px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px; }
+  .brands-row { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+  .brand-name {
+    font-size: 18px; font-weight: 700; color: rgba(255,255,255,0.25);
+    letter-spacing: -0.5px; transition: color 0.3s; cursor: default;
+  }
+  .brand-name:hover { color: rgba(255,255,255,0.6); }
+
+  /* CREATORS / STUDENTS */
+  .creators-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 24px; margin-top: 64px; }
+  .creator-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 28px;
+    transition: all 0.3s; cursor: default;
+  }
+  .creator-card:hover { transform: translateY(-4px); border-color: rgba(108,60,225,0.4); }
+  .creator-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .creator-avatar {
+    width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700; color: #fff;
+  }
+  .creator-info h4 { font-size: 16px; font-weight: 700; }
+  .creator-info span { font-size: 13px; color: var(--text-muted); }
+  .creator-quote { font-size: 15px; color: var(--text-muted); line-height: 1.7; font-style: italic; }
+  .creator-earnings { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  .earn-label { font-size: 12px; color: var(--text-muted); }
+  .earn-val { font-size: 20px; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 24px; margin-top: 64px; }
+  .pricing-card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 36px;
+    transition: all 0.3s; position: relative;
+  }
+  .pricing-card.featured {
+    background: linear-gradient(135deg, rgba(108,60,225,0.2), rgba(168,85,247,0.1));
+    border-color: rgba(108,60,225,0.6);
+  }
+  .pricing-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    padding: 4px 18px; border-radius: 50px; background: var(--gradient);
+    font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap;
+  }
+  .pricing-name { font-size: 15px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+  .pricing-price { font-size: 48px; font-weight: 800; letter-spacing: -2px; color: #fff; }
+  .pricing-price sup { font-size: 22px; font-weight: 600; vertical-align: super; }
+  .pricing-price span { font-size: 14px; font-weight: 400; color: var(--text-muted); }
+  .pricing-desc { font-size: 14px; color: var(--text-muted); margin: 12px 0 24px; }
+  .pricing-features { list-style: none; margin-bottom: 28px; }
+  .pricing-features li { font-size: 14px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 10px; }
+  .pricing-features li:last-child { border-bottom: none; }
+  .check { color: #a855f7; font-size: 16px; }
+  .btn-plan {
+    width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.25s; border: none;
+  }
+  .btn-plan.filled { background: var(--gradient); color: #fff; }
+  .btn-plan.outlined { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-plan:hover { transform: translateY(-2px); opacity: 0.9; }
+
+  /* FAQ */
+  .faq-list { margin-top: 48px; max-width: 720px; }
+  .faq-item { border-bottom: 1px solid var(--border); }
+  .faq-q {
+    padding: 20px 0; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-size: 17px; font-weight: 600; user-select: none; transition: color 0.2s;
+  }
+  .faq-q:hover { color: #c4b5fd; }
+  .faq-icon { font-size: 22px; color: var(--primary-light); transition: transform 0.3s; flex-shrink: 0; margin-left: 16px; }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+  .faq-a p { font-size: 15px; color: var(--text-muted); line-height: 1.8; padding-bottom: 20px; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-item.open .faq-a { max-height: 200px; }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center; padding: 120px 40px;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(108,60,225,0.2) 0%, transparent 70%);
+    position: relative; overflow: hidden;
+  }
+  .cta-section h2 { font-size: clamp(32px,5vw,64px); font-weight: 800; letter-spacing: -2px; margin-bottom: 20px; }
+  .cta-section h2 span { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .cta-section p { font-size: 18px; color: var(--text-muted); margin-bottom: 40px; }
+  .cta-input-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; max-width: 480px; margin: 0 auto; }
+  .cta-input {
+    flex: 1; min-width: 220px; padding: 14px 20px; border-radius: 12px;
+    background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+    color: #fff; font-size: 15px; outline: none;
+  }
+  .cta-input:focus { border-color: var(--primary-light); background: rgba(255,255,255,0.1); }
+  .cta-input::placeholder { color: var(--text-muted); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2); border-top: 1px solid var(--border);
+    padding: 64px 40px 32px;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 48px; }
+  .footer-brand p { font-size: 14px; color: var(--text-muted); margin-top: 12px; max-width: 280px; line-height: 1.7; }
+  .footer-col h5 { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 14px; color: var(--text-muted); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+  .footer-col a:hover { color: #c4b5fd; }
+  .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-bottom p { font-size: 13px; color: var(--text-muted); }
+  .footer-socials { display: flex; gap: 16px; }
+  .social-btn {
+    width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.07);
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.2s; font-size: 16px; text-decoration: none; color: var(--text-muted);
+  }
+  .social-btn:hover { background: rgba(108,60,225,0.3); border-color: var(--primary); color: #fff; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+  .reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* GRID PARTICLES */
+  .grid-bg {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0.3;
+    background-image: linear-gradient(rgba(108,60,225,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(108,60,225,0.15) 1px, transparent 1px);
+    background-size: 60px 60px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  @media(max-width:768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .steps::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">StudyFor</div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#students">Students</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="home.html" class="btn-primary">Get Started Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,60,225,0.25) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(168,85,247,0.15) 0%, transparent 60%), var(--dark);">
+  <div class="grid-bg"></div>
+
+  <!-- Floating left card -->
+  <div class="hero-visual left" style="top:42%;left:2%;">
+    <div class="float-card">
+      <div class="fc-label">Study Progress</div>
+      <div class="fc-val">82%</div>
+      <div class="fc-graph">
+        <div class="fc-bar" style="height:40%"></div>
+        <div class="fc-bar" style="height:55%"></div>
+        <div class="fc-bar" style="height:45%"></div>
+        <div class="fc-bar" style="height:70%"></div>
+        <div class="fc-bar" style="height:60%"></div>
+        <div class="fc-bar" style="height:85%"></div>
+        <div class="fc-bar" style="height:100%; background:linear-gradient(135deg,#a855f7,#ec4899);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating right card -->
+  <div class="hero-visual right" style="top:38%;right:2%;">
+    <div class="float-card">
+      <div class="fc-label">Chapter Completed</div>
+      <div class="fc-val" style="font-size:16px;color:#a855f7;">✓ Unit 4 Done</div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text-muted);">Subject: Wireless PSI</div>
+      <div style="margin-top:6px;font-size:11px;color:rgba(255,255,255,0.25);">2 minutes ago</div>
+    </div>
+  </div>
+
+  <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:140px 40px 80px;position:relative;z-index:1;">
+    <div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Trusted by 150,000+ students worldwide
+      </div>
+      <h1>Study smarter,<br>score <span>higher</span></h1>
+      <p class="hero-sub">StudyFor connects students with structured study materials, MCQ tests, and chapter-wise theory — learn at your own pace, track your progress automatically.</p>
+      <div class="hero-btns">
+        <a href="home.html" class="btn-lg primary">Start studying free <span>→</span></a>
+        <a href="#how" class="btn-lg ghost">▶ See how it works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">150K+</div>
+          <div class="stat-label">Active students</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">42M+</div>
+          <div class="stat-label">Questions practiced</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">8,000+</div>
+          <div class="stat-label">Study materials</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Student rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBJECTS -->
+<div class="brands-section">
+  <div class="brands-label">Subjects available on StudyFor</div>
+  <div class="brands-row">
+    <div class="brand-name">PHYSICS</div>
+    <div class="brand-name">CHEMISTRY</div>
+    <div class="brand-name">BIOLOGY</div>
+    <div class="brand-name">MATHS</div>
+    <div class="brand-name">WIRELESS PSI</div>
+    <div class="brand-name">ELECTRONICS</div>
+    <div class="brand-name">COMPUTER SCI</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="reveal"><span class="section-tag">Features</span></div>
+  <div class="reveal reveal-delay-1"><div class="section-title">Everything you need to<br><span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">study smarter</span></div></div>
+  <div class="reveal reveal-delay-2"><div class="section-sub">Powerful study tools designed for modern students. No extra setup required — just open and learn.</div></div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">📖</div>
+      <h3>Chapter-wise Theory</h3>
+      <p>Access structured theory notes for every chapter. Concepts explained clearly with examples and key points highlighted.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-icon">📊</div>
+      <h3>Real-Time Progress</h3>
+      <p>Track chapters completed and test scores in real-time. Understand which topics need more attention.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-icon">🎯</div>
+      <h3>MCQ Practice Tests</h3>
+      <p>Chapter-wise MCQ tests with instant feedback. Practice exam-style questions to build confidence before the real test.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <div class="feature-icon">🆓</div>
+      <h3>100% Free Access</h3>
+      <p>All study materials, tests, and theory notes are completely free. No hidden charges, no subscriptions needed.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-icon">📱</div>
+      <h3>Study Anywhere</h3>
+      <p>Works on mobile, tablet, and desktop. Study on the go — anytime, anywhere, on any device.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-icon">🤖</div>
+      <h3>AI-Powered Suggestions</h3>
+      <p>Our AI recommends the chapters and topics you should focus on next based on your test performance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div id="how" style="background:linear-gradient(180deg,transparent,rgba(108,60,225,0.05) 50%,transparent);padding:80px 0;">
+  <section style="max-width:1200px;margin:0 auto;padding:20px 40px;">
+    <div style="text-align:center;margin-bottom:20px;" class="reveal">
+      <span class="section-tag">How it works</span>
+      <div class="section-title" style="margin:12px 0;">Start studying in <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">3 simple steps</span></div>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Open StudyFor</h3>
+        <p>Click Get Started — completely free. No account, no credit card, no hidden fees.</p>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <h3>Choose your chapter</h3>
+        <p>Browse all Wireless PSI chapters. Select any chapter to read theory or take an MCQ test.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <h3>Read &amp; Practice</h3>
+        <p>Read the theory notes, then test yourself with MCQs. Instant results and explanations.</p>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-num">4</div>
+        <h3>Track your score</h3>
+        <p>See your score after every test. Review mistakes and improve chapter by chapter.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- STUDENT STORIES -->
+<section id="students">
+  <div style="text-align:center;" class="reveal">
+    <span class="section-tag">Student Stories</span>
+    <div class="section-title" style="margin:12px 0 0;">Real students, <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">real results</span></div>
+  </div>
+  <div class="creators-grid">
+    <div class="creator-card reveal">
+      <div class="creator-header">
+        <div class="creator-avatar" style="background:linear-gradient(135deg,#6c3ce1,#a855f7);">S</div>
+        <div class="creator-info"><h4>Shreya Patel</h4><span>Engineering Student · GTU</span></div>
+      </div>
+      <p class="creator-quote">"StudyFor completely changed how I prepare for exams. The MCQ tests after each chapter helped me identify my weak spots instantly!"</p>
+      <div class="creator-earnings">
+        <div><div class="earn-label">Chapters completed</div><div class="earn-val">24/30</div></div>
+        <div><div class="earn-label">Avg. test score</div><div class="earn-val">87%</div></div>
+      </div>
+    </div>
+    <div class="creator-card reveal reveal-delay-1">
+      <div class="creator-header">
+        <div class="creator-avatar" style="background:linear-gradient(135deg,#0ea5e9,#6c3ce1);">M</div>
+        <div class="creator-info"><h4>Mihir Shah</h4><span>Final Year · Wireless PSI</span></div>
+      </div>
+      <p class="creator-quote">"I've tried many study platforms but StudyFor's theory notes are on another level. Clear, concise, and exam-focused — exactly what I needed."</p>
+      <div class="creator-earnings">
+        <div><div class="earn-label">Chapters completed</div><div class="earn-val">30/30</div></div>
+        <div><div class="earn-label">Avg. test score</div><div class="earn-val">94%</div></div>
+      </div>
+    </div>
+    <div class="creator-card reveal reveal-delay-2">
+      <div class="creator-header">
+        <div class="creator-avatar" style="background:linear-gradient(135deg,#ec4899,#a855f7);">L</div>
+        <div class="creator-info"><h4>Lakshmi Rao</h4><span>B.Tech · Electronics &amp; Comm</span></div>
+      </div>
+      <p class="creator-quote">"Even the most difficult wireless concepts became easy when I used the theory+test combo on StudyFor. Scored 91 in my semester exam!"</p>
+      <div class="creator-earnings">
+        <div><div class="earn-label">Chapters completed</div><div class="earn-val">18/30</div></div>
+        <div><div class="earn-label">Avg. test score</div><div class="earn-val">91%</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(108,60,225,0.08) 0%, transparent 70%);">
+  <div style="text-align:center;" class="reveal">
+    <span class="section-tag">Pricing</span>
+    <div class="section-title" style="margin:12px 0 8px;">Simple, transparent <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">pricing</span></div>
+    <div class="section-sub" style="margin:0 auto;">Everything is free. No hidden fees, ever.</div>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-name">Basic Learner</div>
+      <div class="pricing-price"><sup></sup>Free<span> forever</span></div>
+      <div class="pricing-desc">Perfect for getting started with exam preparation.</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Access all chapter theory notes</li>
+        <li><span class="check">✓</span> Basic MCQ practice tests</li>
+        <li><span class="check">✓</span> Chapter progress tracking</li>
+        <li><span class="check">✓</span> Mobile-friendly interface</li>
+      </ul>
+      <button class="btn-plan outlined" onclick="window.location='home.html'">Get started free</button>
+    </div>
+    <div class="pricing-card featured reveal reveal-delay-1">
+      <div class="pricing-badge">Most Popular</div>
+      <div class="pricing-name">Active Student</div>
+      <div class="pricing-price"><sup></sup>Free<span> always</span></div>
+      <div class="pricing-desc">For serious students who want to maximise their scores.</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Unlimited theory access</li>
+        <li><span class="check">✓</span> Full MCQ test bank per chapter</li>
+        <li><span class="check">✓</span> Instant score with explanations</li>
+        <li><span class="check">✓</span> AI chapter recommendations</li>
+        <li><span class="check">✓</span> Detailed performance analytics</li>
+        <li><span class="check">✓</span> 24/7 access anywhere</li>
+      </ul>
+      <button class="btn-plan filled" onclick="window.location='home.html'">Start studying now</button>
+    </div>
+    <div class="pricing-card reveal reveal-delay-2">
+      <div class="pricing-name">Exam Warrior</div>
+      <div class="pricing-price"><sup></sup>Free<span> always</span></div>
+      <div class="pricing-desc">For students preparing intensively for competitive exams.</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Everything in Active Student</li>
+        <li><span class="check">✓</span> Full previous year question bank</li>
+        <li><span class="check">✓</span> Timed mock exam mode</li>
+        <li><span class="check">✓</span> Custom study schedule</li>
+        <li><span class="check">✓</span> Subject expert Q&amp;A</li>
+        <li><span class="check">✓</span> Offline study access</li>
+      </ul>
+      <button class="btn-plan outlined" onclick="window.location='home.html'">Start for free</button>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="max-width:800px;">
+  <div class="reveal"><span class="section-tag">FAQ</span></div>
+  <div class="reveal reveal-delay-1"><div class="section-title">Frequently asked <span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">questions</span></div></div>
+  <div class="faq-list reveal reveal-delay-2">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I start studying with StudyFor? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Simply click Get Started — it's completely free! Browse the chapter list, choose a subject like Wireless PSI, and start reading theory notes or take an MCQ test. No signup, no credit card required.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is StudyFor really free? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Yes, 100% free. All theory notes, MCQ tests, and progress tracking are completely free with no hidden charges. We believe quality education should be accessible to everyone.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Which subjects are available? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Currently we have comprehensive material for Wireless PSI covering all chapters. More subjects including Physics, Chemistry, Maths, and Electronics are being added regularly. Check back soon!</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do the MCQ tests work? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Each chapter has a dedicated MCQ test with exam-style questions. After completing the test, you get an instant score along with correct answers and explanations for each question to help you learn from mistakes.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I use StudyFor on my phone? <span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Absolutely! StudyFor is fully mobile-responsive. Study from your phone, tablet, or desktop — the experience is smooth and optimised for all screen sizes.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div style="position:relative;z-index:1;">
+    <div class="reveal"><h2>Ready to start<br><span>studying today?</span></h2></div>
+    <div class="reveal reveal-delay-1"><p>Join 150,000+ students already acing their exams with StudyFor. Free forever, no signup needed.</p></div>
+    <div class="reveal reveal-delay-2">
+      <div class="cta-input-row">
+        <a href="home.html" class="btn-lg primary" style="padding:14px 36px;font-size:15px;">Get started free →</a>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);margin-top:16px;">No signup required · Free forever · All subjects included</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-logo" style="font-size:28px;">StudyFor</div>
+      <p>The leading study platform for exam preparation. Master every chapter with structured theory and MCQ practice tests.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Study</h5>
+      <a href="home.html">All Chapters</a>
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#">Subject catalog</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About us</a>
+      <a href="#">Blog</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h5>Legal</h5>
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of service</a>
+      <a href="#">Cookie policy</a>
+      <a href="#">GDPR</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 StudyFor. All rights reserved.</p>
+    <div class="footer-socials">
+      <a href="#" class="social-btn">𝕏</a>
+      <a href="#" class="social-btn">in</a>
+      <a href="#" class="social-btn">▶</a>
+      <a href="#" class="social-btn">📷</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  const counters = [
+    { el: document.querySelectorAll('.stat-num')[0], target: 150, suffix: 'K+' },
+    { el: document.querySelectorAll('.stat-num')[1], target: 42, suffix: 'M+' },
+    { el: document.querySelectorAll('.stat-num')[2], target: 8000, suffix: '+' },
+  ];
+  const statsObserver = new IntersectionObserver((entries) => {
+    if(entries[0].isIntersecting) {
+      counters.forEach(c => {
+        let start = 0; const step = c.target / 60;
+        const timer = setInterval(() => {
+          start = Math.min(start + step, c.target);
+          const val = Math.round(start);
+          c.el.textContent = (val >= 1000 ? (val/1000).toFixed(0)+'K' : val) + (c.suffix||'');
+          if(start >= c.target) clearInterval(timer);
+        }, 20);
+      });
+      statsObserver.disconnect();
+    }
+  }, { threshold: 0.5 });
+  const statsSection = document.querySelector('.hero-stats');
+  if(statsSection) statsObserver.observe(statsSection);
+</script>
+</body>
+</html>
