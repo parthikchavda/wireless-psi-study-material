@@ -4977,6 +4977,7 @@ ${resHtml}
   <span class="kb-key">←</span><span class="kb-key">→</span> navigate &nbsp;·&nbsp;
   <span class="kb-key">1</span><span class="kb-key">2</span><span class="kb-key">3</span><span class="kb-key">4</span> choose &nbsp;·&nbsp;
   <span class="kb-key">B</span> bookmark &nbsp;·&nbsp;
+  <span class="kb-key">C</span> copy &nbsp;·&nbsp;
   <span class="kb-key">F</span> focus mode &nbsp;·&nbsp;
   <span class="kb-key">S</span> score
 </div>
@@ -5029,6 +5030,8 @@ ${resHtml}
       if (e.key === 'f' || e.key === 'F') toggleFocusMode();
       if (e.key === 's' || e.key === 'S') openScoreModal();
       if (e.key === 'n' || e.key === 'N') jumpToNextUnanswered();
+      // copy for 
+      if (e.key === 'c' || e.key === 'C') copyQuestion(cur);
       if (e.key === 'Escape') {
         document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
         closeAllPanels();
