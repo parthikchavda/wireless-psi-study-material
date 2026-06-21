@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wireless PSI Exam – Microprocessor &amp; Microcontroller Study Material</title>
+    <style>
+        /* ── Reset & base ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', 'Noto Sans Gujarati', system-ui, sans-serif;
+            background: #f4f7fb;
+            color: #1e2a3a;
+            padding: 20px;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 30px 35px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ── headings ── */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+        h1 {
+            font-size: 2.4rem;
+            color: #0b2b4a;
+            border-bottom: 4px solid #1a73e8;
+            padding-bottom: 14px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        h1 small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #3c5a7a;
+            background: #eef3f9;
+            padding: 4px 18px;
+            border-radius: 40px;
+            margin-left: 6px;
+        }
+        h2 {
+            font-size: 1.9rem;
+            color: #0b2b4a;
+            margin-top: 44px;
+            margin-bottom: 16px;
+            padding-left: 6px;
+            border-left: 6px solid #1a73e8;
+            padding-left: 18px;
+        }
+        h3 {
+            font-size: 1.4rem;
+            color: #1a3b5e;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+        h4 {
+            font-size: 1.15rem;
+            color: #1f4970;
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+
+        /* ── utility ── */
+        .badge {
+            display: inline-block;
+            background: #1a73e8;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.3px;
+            margin-right: 6px;
+        }
+        .badge.imp {
+            background: #c62828;
+        }
+        .badge.green {
+            background: #2e7d32;
+        }
+        .badge.purple {
+            background: #6a1b9a;
+        }
+
+        .star {
+            color: #c62828;
+            font-weight: 700;
+        }
+
+        /* ── cards / boxes ── */
+        .info-box {
+            background: #f0f6fe;
+            border-radius: 16px;
+            padding: 18px 24px;
+            margin: 20px 0 16px 0;
+            border-left: 5px solid #1a73e8;
+        }
+        .info-box.imp-box {
+            background: #fff4e5;
+            border-left-color: #e65100;
+        }
+        .info-box.green-box {
+            background: #e8f5e9;
+            border-left-color: #2e7d32;
+        }
+        .info-box.purple-box {
+            background: #f3e5f5;
+            border-left-color: #6a1b9a;
+        }
+
+        /* ── tables ── */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 18px 0 22px 0;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 540px;
+        }
+        th {
+            background: #1a2f44;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        td {
+            padding: 11px 16px;
+            border-bottom: 1px solid #e9edf2;
+            background: #fff;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover td {
+            background: #f8faff;
+        }
+
+        /* ── code / instructions ── */
+        .code-block {
+            background: #0e1e2b;
+            color: #e6edf3;
+            padding: 16px 22px;
+            border-radius: 14px;
+            font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+            font-size: 0.92rem;
+            overflow-x: auto;
+            margin: 12px 0 18px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .code-block .comment {
+            color: #7ec699;
+        }
+        .code-block .label {
+            color: #f5a97f;
+        }
+        .code-block .instr {
+            color: #8fcbff;
+        }
+
+        /* ── MCQs ── */
+        .mcq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px 28px;
+            margin: 18px 0 10px 0;
+        }
+        .mcq-item {
+            background: #fafcff;
+            padding: 10px 16px 10px 20px;
+            border-radius: 12px;
+            border: 1px solid #e6edf4;
+            transition: 0.15s;
+        }
+        .mcq-item:hover {
+            background: #f0f7ff;
+            border-color: #b3cfe8;
+        }
+        .mcq-item .q {
+            font-weight: 600;
+            color: #0b2b4a;
+        }
+        .mcq-item .ans {
+            color: #1a73e8;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .mcq-item .ans::before {
+            content: "✓ ";
+            font-weight: 700;
+        }
+
+        /* ── details / collapsible ── */
+        details {
+            background: #f9fcff;
+            border-radius: 14px;
+            border: 1px solid #dde6ef;
+            padding: 8px 18px 12px 18px;
+            margin: 18px 0 12px 0;
+            transition: 0.2s;
+        }
+        details summary {
+            font-weight: 700;
+            font-size: 1.08rem;
+            cursor: pointer;
+            padding: 8px 0 4px 0;
+            color: #0b2b4a;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+        details summary::before {
+            content: "▶ ";
+            font-size: 0.9rem;
+            color: #1a73e8;
+            transition: 0.2s;
+        }
+        details[open] summary::before {
+            content: "▼ ";
+        }
+        details .inner {
+            padding-top: 12px;
+            border-top: 1px solid #e2eaf3;
+            margin-top: 6px;
+        }
+
+        /* ── revision / last-day ── */
+        .revision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin: 20px 0 10px 0;
+        }
+        .rev-card {
+            background: #f8fcff;
+            border-radius: 16px;
+            padding: 18px 20px 16px 20px;
+            border: 1px solid #dce6f0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+        .rev-card h4 {
+            margin-top: 0;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        .rev-card ul {
+            padding-left: 20px;
+            margin: 6px 0;
+        }
+        .rev-card ul li {
+            margin-bottom: 4px;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 800px) {
+            .container {
+                padding: 16px 18px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .mcq-grid {
+                grid-template-columns: 1fr;
+            }
+            .revision-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 480px) {
+            .revision-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 12px 12px;
+            }
+            .code-block {
+                font-size: 0.8rem;
+                padding: 12px 14px;
+            }
+        }
+
+        /* ── misc ── */
+        .hr-divider {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, #cbdae9, #1a73e8, #cbdae9);
+            margin: 40px 0 30px 0;
+            opacity: 0.4;
+        }
+        .topic-tag {
+            display: inline-block;
+            background: #eaf1fa;
+            color: #1a3b5e;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0 14px;
+            border-radius: 30px;
+            margin-right: 4px;
+        }
+        .footer-note {
+            margin-top: 44px;
+            padding-top: 24px;
+            border-top: 2px solid #e2eaf3;
+            text-align: center;
+            color: #3c5a7a;
+            font-size: 0.95rem;
+        }
+        .footer-note strong {
+            color: #0b2b4a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- HEADER                                                        -->
+        <!-- ============================================================ -->
+        <h1>
+            📘 Wireless PSI Exam
+            <small>Microprocessor &amp; Microcontroller</small>
+        </h1>
+        <p style="font-size:1.1rem; color:#2c445e; margin-bottom:10px;">
+            સંપૂર્ણ ગુજરાતી ભાષામાં 15 ટોપિક્સ · Basic થી Advanced · MCQ · Revision
+        </p>
+        <p style="color:#3f5e7e; margin-bottom:28px;">
+            ⭐ <strong>Important:</strong> 8085, 8051, RISC vs CISC, Memory System — વારંવાર પૂછાતા પ્રશ્નો
+        </p>
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 1                                                       -->
+        <!-- ============================================================ -->
+        <h2>1. Microprocessor Architecture &amp; Microprocessor System</h2>
+
+        <div class="info-box">
+            <strong>📌 વ્યાખ્યા:</strong> <strong>માઇક્રોપ્રોસેસર</strong> એ એક <strong>ઇન્ટિગ્રેટેડ સર્કિટ (IC)</strong> છે જે કમ્પ્યુટરના <strong>CPU</strong> ના તમામ કાર્યો એક જ ચિપ પર કરે છે. <strong>માઇક્રોપ્રોસેસર સિસ્ટમ</strong> = CPU + મેમરી + I/O.
+        </div>
+
+        <h4>મુખ્ય લાક્ષણિકતાઓ</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>સમજૂતી</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>વર્ડ સાઇઝ</strong></td><td>એક સમયે કેટલા બિટ ડેટા પ્રોસેસ કરી શકે (8‑bit, 16‑bit…)</td></tr>
+                    <tr><td><strong>ક્લોક સ્પીડ</strong></td><td>પ્રોસેસર કેટલી ઝડપે કાર્ય કરે છે (MHz / GHz)</td></tr>
+                    <tr><td><strong>ઇન્સ્ટ્રક્શન સેટ</strong></td><td>પ્રોસેસર દ્વારા સમજાતી આદેશોની સૂચિ</td></tr>
+                    <tr><td><strong>કોર્સની સંખ્યા</strong></td><td>એક ચિપ પર કેટલા પ્રોસેસિંગ યુનિટ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>ઘટકો (Block Diagram)</h4>
+        <div class="code-block">
+            ┌─────────────────────────────────────────────────────┐
+            │              માઇક્રોપ્રોસેસર સિસ્ટમ                │
+            ├─────────────────────────────────────────────────────┤
+            │  ┌──────────┐    ┌──────────┐    ┌──────────┐     │
+            │  │   CPU    │────│  મેમરી   │────│  I/O     │     │
+            │  │(ALU + CU)│    │(RAM/ROM) │    │ ઉપકરણો   │     │
+            │  └──────────┘    └──────────┘    └──────────┘     │
+            │       │               │               │            │
+            │       └───────────────┴───────────────┘            │
+            │                    │                                │
+            │              ┌─────┴─────┐                          │
+            │              │  બસ સિસ્ટમ │                          │
+            │              │(ડેટા, એડ્રેસ,│                          │
+            │              │ કંટ્રોલ)    │                          │
+            │              └───────────┘                          │
+            └─────────────────────────────────────────────────────┘
+        </div>
+
+        <h4>ફાયદા · ગેરફાયદા · ઉપયોગો</h4>
+        <ul>
+            <li><strong>✅ ફાયદા:</strong> ઉચ્ચ ઝડપ, ઓછો ખર્ચ, પ્રોગ્રામેબલ, નાનું કદ, ઓછી પાવર</li>
+            <li><strong>❌ ગેરફાયદા:</strong> મર્યાદિત ક્ષમતા, હીટ ઉત્પાદન, બાહ્ય ઘટકોની જરૂર</li>
+            <li><strong>📱 ઉપયોગો:</strong> PC, મોબાઇલ, ઓટોમોબાઇલ, ઇન્ડસ્ટ્રિયલ કંટ્રોલર, મેડિકલ ઉપકરણો</li>
+        </ul>
+
+        <details>
+            <summary>📝 Topic 1 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">1. માઇક્રોપ્રોસેસર શું છે?</span><br>A) મેમરી ચિપ &nbsp; B) CPU ધરાવતી IC <span class="ans">B</span><br>C) હાર્ડ ડિસ્ક &nbsp; D) મોનિટર</div>
+                    <div class="mcq-item"><span class="q">2. માઇક્રોપ્રોસેસર સિસ્ટમના મુખ્ય ઘટકો કયા?</span><br>A) CPU, મેમરી, I/O <span class="ans">A</span><br>B) કીબોર્ડ, માઉસ, મોનિટર &nbsp; C) HDD, CD, DVD</div>
+                    <div class="mcq-item"><span class="q">3. વર્ડ સાઇઝ શું સૂચવે છે?</span><br>A) મેમરીનું કદ &nbsp; B) એક સમયે પ્રોસેસ થતા બિટ્સ <span class="ans">B</span><br>C) હાર્ડ ડિસ્કનું કદ &nbsp; D) સ્ક્રીનનું કદ</div>
+                    <div class="mcq-item"><span class="q">4. નીચેનામાંથી કયું લક્ષણ <strong>નથી</strong>?</span><br>A) ઉચ્ચ ઝડપ &nbsp; B) ઓછો ખર્ચ &nbsp; C) અમર્યાદિત મેમરી <span class="ans">C</span><br>D) પ્રોગ્રામેબલ</div>
+                    <div class="mcq-item"><span class="q">5. ફેચ-એક્ઝિક્યુટ સાયકલ શું છે?</span><br>A) ઇન્સ્ટ્રક્શન ફેચ + એક્ઝિક્યુટ <span class="ans">A</span><br>B) ડેટા સ્ટોર &nbsp; C) ડેટા ડિલીટ &nbsp; D) પ્રોગ્રામ કમ્પાઇલ</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 2                                                       -->
+        <!-- ============================================================ -->
+        <h2>2. 8085 Microprocessor</h2>
+
+        <div class="info-box imp-box">
+            <strong>⭐ Intel 8085</strong> — 8‑bit માઇક્રોપ્રોસેસર · N‑MOS · +5V સિંગલ સપ્લાય · 3 MHz · 80 ઇન્સ્ટ્રક્શન્સ
+        </div>
+
+        <h4>મુખ્ય લાક્ષણિકતાઓ</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લક્ષણ</th><th>વિગત</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ડેટા બસ</strong></td><td>8‑bit</td></tr>
+                    <tr><td><strong>એડ્રેસ બસ</strong></td><td>16‑bit (64 KB મેમરી)</td></tr>
+                    <tr><td><strong>ક્લોક</strong></td><td>3 MHz</td></tr>
+                    <tr><td><strong>ટેક્નોલોજી</strong></td><td>N‑MOS</td></tr>
+                    <tr><td><strong>પાવર</strong></td><td>+5V</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>8085 આર્કિટેક્ચર (Block Diagram)</h4>
+        <div class="code-block">
+            ┌──────────────────────────────────────────────────────────────┐
+            │                   8085 માઇક્રોપ્રોસેસર                     │
+            ├──────────────────────────────────────────────────────────────┤
+            │  ┌──────────────────────────────────────────────────────┐   │
+            │  │                    ALU                               │   │
+            │  └──────────────────────────────────────────────────────┘   │
+            │                            │                                 │
+            │  ┌──────────────────────────────────────────────────────┐   │
+            │  │                    રજિસ્ટર ફાઇલ                     │   │
+            │  │  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐  │   │
+            │  │  │  A  │ │  B  │ │  C  │ │  D  │ │  E  │ │  H  │  │   │
+            │  │  │(Acc)│ │     │ │     │ │     │ │     │ │  L  │  │   │
+            │  │  └─────┘ └─────┘ └─────┘ └─────┘ └─────┘ └─────┘  │   │
+            │  │  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                   │   │
+            │  │  │ SP  │ │ PC  │ │Flag │ │ટેમ્પ│                   │   │
+            │  │  └─────┘ └─────┘ └─────┘ └─────┘                   │   │
+            │  └──────────────────────────────────────────────────────┘   │
+            │                            │                                 │
+            │  ┌──────────────────────────────────────────────────────┐   │
+            │  │              કંટ્રોલ યુનિટ                          │   │
+            │  └──────────────────────────────────────────────────────┘   │
+            │                            │                                 │
+            │  ┌──────────────────────────────────────────────────────┐   │
+            │  │                  બસ ઇન્ટરફેસ                      │   │
+            │  │    ┌─────────┐  ┌─────────┐  ┌─────────┐          │   │
+            │  │    │ ડેટા બસ │  │એડ્રેસ બસ│  │કંટ્રોલ બસ│          │   │
+            │  │    │ (8-bit) │  │(16-bit) │  │         │          │   │
+            │  │    └─────────┘  └─────────┘  └─────────┘          │   │
+            │  └──────────────────────────────────────────────────────┘   │
+            └──────────────────────────────────────────────────────────────┘
+        </div>
+
+        <h4>7 મુખ્ય ભાગો</h4>
+        <ol>
+            <li><strong>રજિસ્ટર યુનિટ</strong> – ડેટા સ્ટોર</li>
+            <li><strong>ALU</strong> – ગાણિતિક/લોજિકલ કામગીરી</li>
+            <li><strong>ઇન્સ્ટ્રક્શન ડીકોડર</strong> – ઇન્સ્ટ્રક્શન સમજે</li>
+            <li><strong>ટાઇમિંગ અને કંટ્રોલ</strong> – ટાઇમિંગ સિગ્નલ</li>
+            <li><strong>ઇન્ટરપ્ટ કંટ્રોલ</strong> – ઇન્ટરપ્ટ હેન્ડલ</li>
+            <li><strong>સીરિયલ I/O</strong> – સીરિયલ ડેટા</li>
+            <li><strong>બસ ઇન્ટરફેસ</strong> – બાહ્ય સંચાર</li>
+        </ol>
+
+        <h4>⭐ Important: Flag Register</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>ફ્લેગ</th><th>કાર્ય</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>S</strong> (Sign)</td><td>પરિણામ નકારાત્મક છે?</td></tr>
+                    <tr><td><strong>Z</strong> (Zero)</td><td>પરિણામ શૂન્ય છે?</td></tr>
+                    <tr><td><strong>AC</strong> (Aux. Carry)</td><td>BCD એડજસ્ટમેન્ટ</td></tr>
+                    <tr><td><strong>P</strong> (Parity)</td><td>1 ની સંખ્યા સમ છે?</td></tr>
+                    <tr><td><strong>CY</strong> (Carry)</td><td>કેરી ઉત્પન્ન થઈ?</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 2 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">6. 8085 કેટલા બિટનો છે?</span><br>A) 4‑bit &nbsp; B) 8‑bit <span class="ans">B</span> &nbsp; C) 16‑bit &nbsp; D) 32‑bit</div>
+                    <div class="mcq-item"><span class="q">7. 8085 ની એડ્રેસ બસ કેટલા બિટની?</span><br>A) 4 &nbsp; B) 8 &nbsp; C) 16 <span class="ans">C</span> &nbsp; D) 32</div>
+                    <div class="mcq-item"><span class="q">8. 8085 માટે કયો પાવર સપ્લાય?</span><br>A) +3.3V &nbsp; B) +5V <span class="ans">B</span> &nbsp; C) +12V &nbsp; D) -5V</div>
+                    <div class="mcq-item"><span class="q">9. 8085 ની મહત્તમ ક્લોક ફ્રીક્વન્સી?</span><br>A) 1 MHz &nbsp; B) 2 MHz &nbsp; C) 3 MHz <span class="ans">C</span> &nbsp; D) 5 MHz</div>
+                    <div class="mcq-item"><span class="q">10. 8085 માં કેટલા ઇન્ટરપ્ટ્સ?</span><br>A) 2 &nbsp; B) 3 &nbsp; C) 4 &nbsp; D) 5 <span class="ans">D</span></div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 3                                                       -->
+        <!-- ============================================================ -->
+        <h2>3. 8085 Instruction Set</h2>
+
+        <div class="info-box">
+            <strong>📌 ઇન્સ્ટ્રક્શન સેટ</strong> = 8085 દ્વારા સમજાતા આદેશોનો સમૂહ. <br>
+            <strong>વર્ડ સાઇઝ:</strong> 1‑બાઇટ · 2‑બાઇટ · 3‑બાઇટ
+        </div>
+
+        <h4>5 જૂથો</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>જૂથ</th><th>ઇન્સ્ટ્રક્શન્સ (ઉદાહરણ)</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ડેટા ટ્રાન્સફર</strong></td><td>MOV, MVI, LDA, STA, LXI</td></tr>
+                    <tr><td><strong>ગાણિતિક</strong></td><td>ADD, ADI, SUB, SUI, INR, DCR</td></tr>
+                    <tr><td><strong>લોજિકલ</strong></td><td>ANA, ORA, XRA, CMA, RLC, RRC</td></tr>
+                    <tr><td><strong>બ્રાન્ચિંગ</strong></td><td>JMP, JZ, JNZ, CALL, RET</td></tr>
+                    <tr><td><strong>સ્ટેક &amp; મશીન</strong></td><td>PUSH, POP, HLT, NOP</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>⭐ ઉદાહરણ પ્રોગ્રામ (બે 8‑bit ઉમેરો)</h4>
+        <div class="code-block">
+            MVI A, 25H    ; A = 25H
+            MVI B, 30H    ; B = 30H
+            ADD B         ; A = A + B
+            STA 2050H     ; પરિણામ 2050H માં સ્ટોર
+            HLT           ; રોકો
+        </div>
+
+        <details>
+            <summary>📝 Topic 3 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">11. MOV A, B શું કરે?</span><br>A) A→B &nbsp; B) B→A <span class="ans">B</span> &nbsp; C) A+B &nbsp; D) A−B</div>
+                    <div class="mcq-item"><span class="q">12. કયું ઇન્સ્ટ્રક્શન તાત્કાલિક મૂલ્ય લોડ કરે?</span><br>A) MOV &nbsp; B) MVI <span class="ans">B</span> &nbsp; C) ADD &nbsp; D) SUB</div>
+                    <div class="mcq-item"><span class="q">13. JMP ઇન્સ્ટ્રક્શન?</span><br>A) કન્ડિશનલ જમ્પ &nbsp; B) અનકન્ડિશનલ જમ્પ <span class="ans">B</span><br>C) સબરૂટીન કોલ &nbsp; D) રિટર્ન</div>
+                    <div class="mcq-item"><span class="q">14. CMA ઇન્સ્ટ્રક્શન?</span><br>A) A ને કોમ્પ્લીમેન્ટ <span class="ans">A</span> &nbsp; B) A ક્લિયર<br>C) A ઇન્ક્રિમેન્ટ &nbsp; D) A ડિક્રિમેન્ટ</div>
+                    <div class="mcq-item"><span class="q">15. 8085 માં કયા પ્રકારના ઇન્સ્ટ્રક્શન્સ?</span><br>A) 1‑બાઇટ, 2‑બાઇટ &nbsp; B) 2‑, 3‑બાઇટ<br>C) 1‑, 2‑, 3‑બાઇટ <span class="ans">C</span> &nbsp; D) ફક્ત 1‑બાઇટ</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 4                                                       -->
+        <!-- ============================================================ -->
+        <h2>4. 8085 Timing &amp; Control Signals</h2>
+
+        <div class="info-box imp-box">
+            <strong>⭐ મુખ્ય સિગ્નલ્સ:</strong> ALE · RD' · WR' · IO/M' · READY · INTA
+        </div>
+
+        <h4>કંટ્રોલ અને સ્ટેટસ સિગ્નલ</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>સિગ્નલ</th><th>કાર્ય</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ALE</strong></td><td>Address Latch Enable</td></tr>
+                    <tr><td><strong>RD'</strong></td><td>Read (એક્ટિવ લો)</td></tr>
+                    <tr><td><strong>WR'</strong></td><td>Write (એક્ટિવ લો)</td></tr>
+                    <tr><td><strong>IO/M'</strong></td><td>I/O અથવા મેમરી પસંદગી</td></tr>
+                    <tr><td><strong>READY</strong></td><td>WAIT સ્ટેટ (ધીમા ઉપકરણો)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>⭐ 5 ઇન્ટરપ્ટ્સ (પ્રાયોરિટી ક્રમ)</h4>
+        <ol>
+            <li><strong>TRAP</strong> – સૌથી ઊંચી, નોન‑માસ્કેબલ</li>
+            <li><strong>RST 7.5</strong> – ઊંચી, માસ્કેબલ</li>
+            <li><strong>RST 6.5</strong> – મધ્યમ</li>
+            <li><strong>RST 5.5</strong> – નીચી</li>
+            <li><strong>INTR</strong> – સૌથી નીચી, માસ્કેબલ</li>
+        </ol>
+
+        <details>
+            <summary>📝 Topic 4 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">16. ALE નું પૂરું નામ?</span><br>A) Address Latch Enable <span class="ans">A</span> &nbsp; B) Arithmetic Logic Enable<br>C) Address Load Enable &nbsp; D) Auto Latch Enable</div>
+                    <div class="mcq-item"><span class="q">17. કયું ઇન્ટરપ્ટ નોન‑માસ્કેબલ?</span><br>A) RST 5.5 &nbsp; B) RST 6.5 &nbsp; C) RST 7.5 &nbsp; D) TRAP <span class="ans">D</span></div>
+                    <div class="mcq-item"><span class="q">18. RD' અને WR' કયા પ્રકારના?</span><br>A) એક્ટિવ હાઈ &nbsp; B) એક્ટિવ લો <span class="ans">B</span><br>C) નોન‑એક્ટિવ &nbsp; D) બાય‑ડાયરેક્શનલ</div>
+                    <div class="mcq-item"><span class="q">19. IO/M' શું સૂચવે?</span><br>A) I/O અથવા મેમરી ઓપરેશન <span class="ans">A</span><br>B) ઇનપુટ/આઉટપુટ &nbsp; C) મેમરી &nbsp; D) I/O</div>
+                    <div class="mcq-item"><span class="q">20. READY નો ઉપયોગ?</span><br>A) WAIT સ્ટેટ <span class="ans">A</span> &nbsp; B) ઝડપી ઉપકરણો<br>C) ઇન્ટરપ્ટ &nbsp; D) રીસેટ</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 5                                                       -->
+        <!-- ============================================================ -->
+        <h2>5. Programming Techniques of 8085</h2>
+
+        <div class="info-box">
+            <strong>📌 એડ્રેસિંગ મોડ્સ:</strong> Immediate · Register · Direct · Indirect · Implied <br>
+            <strong>સબ્ટ્રેક્શન:</strong> 2's complement પદ્ધતિ
+        </div>
+
+        <h4>ઉદાહરણ પ્રોગ્રામ્સ</h4>
+        <div class="code-block">
+            ; બે BCD નંબર ઉમેરો
+            MVI A, 45H
+            MVI B, 30H
+            ADD B
+            DAA           ; ડેસિમલ એડજસ્ટ
+            STA 2050H
+            HLT
+
+            ; ટાઇમ ડિલે (કાઉન્ટર)
+            MVI C, 0AH
+        LOOP: DCR C
+            JNZ LOOP
+            HLT
+        </div>
+
+        <details>
+            <summary>📝 Topic 5 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">21. 8085 માં સબ્ટ્રેક્શન માટે કઈ પદ્ધતિ?</span><br>A) 1's complement &nbsp; B) 2's complement <span class="ans">B</span><br>C) Direct &nbsp; D) Addition</div>
+                    <div class="mcq-item"><span class="q">22. MVI A,30H માં કયો એડ્રેસિંગ મોડ?</span><br>A) Register &nbsp; B) Immediate <span class="ans">B</span> &nbsp; C) Direct &nbsp; D) Indirect</div>
+                    <div class="mcq-item"><span class="q">23. RRC ઇન્સ્ટ્રક્શન શું કરે?</span><br>A) ડાબે રોટેટ &nbsp; B) જમણે રોટેટ <span class="ans">B</span><br>C) કોમ્પ્લીમેન્ટ &nbsp; D) ક્લિયર</div>
+                    <div class="mcq-item"><span class="q">24. લૂપ માટે કયું ઇન્સ્ટ્રક્શન?</span><br>A) MOV &nbsp; B) ADD &nbsp; C) JNZ <span class="ans">C</span> &nbsp; D) MVI</div>
+                    <div class="mcq-item"><span class="q">25. DAA ઇન્સ્ટ્રક્શન?</span><br>A) ડેટા એડજસ્ટ &nbsp; B) ડેસિમલ એડજસ્ટ <span class="ans">B</span><br>C) ડાયરેક્ટ &nbsp; D) ડબલ</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 6                                                       -->
+        <!-- ============================================================ -->
+        <h2>6. Advanced Microprocessor</h2>
+
+        <div class="info-box">
+            <strong>📌 અદ્યતન ખ્યાલો:</strong> પાઇપલાઇનિંગ · કેશ મેમરી · મેમરી હાયરાર્કી · સુપરસ્કેલર
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>ખ્યાલ</th><th>સમજૂતી</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>પાઇપલાઇનિંગ</strong></td><td>એક સમયે બહુવિધ ઇન્સ્ટ્રક્શન્સ ઓવરલેપ</td></tr>
+                    <tr><td><strong>કેશ મેમરી</strong></td><td>ઝડપી એક્સેસ માટે નાની મેમરી</td></tr>
+                    <tr><td><strong>સુપરસ્કેલર</strong></td><td>એક સમયે બહુવિધ ઇન્સ્ટ્રક્શન્સ</td></tr>
+                    <tr><td><strong>મેમરી હાયરાર્કી</strong></td><td>મેમરીના વિવિધ સ્તરો</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 6 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">26. પાઇપલાઇનિંગ શું છે?</span><br>A) ઇન્સ્ટ્રક્શન્સ ઓવરલેપ <span class="ans">A</span> &nbsp; B) મેમરી વધારવી<br>C) ઝડપ ઘટાડવી &nbsp; D) ખર્ચ વધારવો</div>
+                    <div class="mcq-item"><span class="q">27. કેશ મેમરી શા માટે?</span><br>A) ઝડપી એક્સેસ <span class="ans">A</span> &nbsp; B) વધુ સ્ટોરેજ<br>C) ઓછો ખર્ચ &nbsp; D) મોટું કદ</div>
+                    <div class="mcq-item"><span class="q">28. 80386 કેટલા બિટનો?</span><br>A) 8‑bit &nbsp; B) 16‑bit &nbsp; C) 32‑bit <span class="ans">C</span> &nbsp; D) 64‑bit</div>
+                    <div class="mcq-item"><span class="q">29. સુપરસ્કેલર આર્કિટેક્ચર?</span><br>A) એક સમયે એક &nbsp; B) એક સમયે બહુવિધ <span class="ans">B</span><br>C) ઇન્સ્ટ્રક્શન્સ રદ &nbsp; D) ડિલીટ</div>
+                    <div class="mcq-item"><span class="q">30. મેમરી હાયરાર્કી?</span><br>A) વિવિધ સ્તરો <span class="ans">A</span> &nbsp; B) એક જ મેમરી<br>C) કોઈ મેમરી &nbsp; D) ફક્ત RAM</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 7                                                       -->
+        <!-- ============================================================ -->
+        <h2>7. Main Memory System</h2>
+
+        <div class="info-box green-box">
+            <strong>📌 મુખ્ય મેમરી =</strong> RAM (વોલેટાઇલ) + ROM (નોન‑વોલેટાઇલ)
+        </div>
+
+        <h4>⭐ RAM vs ROM</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>RAM</th><th>ROM</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ઓપરેશન</strong></td><td>રીડ/રાઇટ</td><td>ફક્ત રીડ</td></tr>
+                    <tr><td><strong>વોલેટિલિટી</strong></td><td>વોલેટાઇલ</td><td>નોન‑વોલેટાઇલ</td></tr>
+                    <tr><td><strong>ઝડપ</strong></td><td>ખૂબ ઝડપી</td><td>ઝડપી (ધીમી)</td></tr>
+                    <tr><td><strong>ક્ષમતા</strong></td><td>ગીગાબાઇટ્સ</td><td>મેગાબાઇટ્સ</td></tr>
+                    <tr><td><strong>સ્ટોર</strong></td><td>પ્રોગ્રામ + ડેટા</td><td>BIOS, બૂટસ્ટ્રેપ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 7 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">31. RAM નું પૂરું નામ?</span><br>A) Random Access Memory <span class="ans">A</span> &nbsp; B) Read Access<br>C) Rapid Access &nbsp; D) Real Access</div>
+                    <div class="mcq-item"><span class="q">32. ROM શા માટે?</span><br>A) BIOS, બૂટસ્ટ્રેપ <span class="ans">A</span> &nbsp; B) યુઝર ડેટા<br>C) ટેમ્પરરી &nbsp; D) કેશ</div>
+                    <div class="mcq-item"><span class="q">33. કઈ મેમરી નોન‑વોલેટાઇલ?</span><br>A) RAM &nbsp; B) DRAM &nbsp; C) SRAM &nbsp; D) ROM <span class="ans">D</span></div>
+                    <div class="mcq-item"><span class="q">34. EPROM માં ડેટા કેવી રીતે ઇરેઝ?</span><br>A) UV લાઇટ <span class="ans">A</span> &nbsp; B) ઇલેક્ટ્રીસીટી<br>C) હીટ &nbsp; D) મેગ્નેટ</div>
+                    <div class="mcq-item"><span class="q">35. SRAM કરતાં DRAM શું?</span><br>A) ઝડપી, મોંઘી &nbsp; B) ધીમી, સસ્તી <span class="ans">B</span><br>C) ઝડપી, સસ્તી &nbsp; D) ધીમી, મોંઘી</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 8                                                       -->
+        <!-- ============================================================ -->
+        <h2>8. Evolution of Microcontrollers</h2>
+
+        <div class="info-box">
+            <strong>📌 સમયરેખા:</strong> 1971 Intel 4004 (પ્રથમ MPU) · 1971 TMS 1000 (પ્રથમ MCU) · 1976 Intel MCS‑48 · 1980 Intel 8051
+        </div>
+
+        <h4>ઉત્ક્રાંતિના તબક્કા</h4>
+        <div class="code-block">
+            4‑bit (1970s) → 8‑bit (1980s) → 16‑bit (1990s) → 32‑bit (2000s) → 64‑bit (હાલ)
+             │               │               │               │               │
+          કેલ્ક્યુલેટર    8051/AVR      PIC 24        ARM Cortex    Cortex‑A
+        </div>
+
+        <details>
+            <summary>📝 Topic 8 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">36. પ્રથમ માઇક્રોપ્રોસેસર?</span><br>A) Intel 8080 &nbsp; B) Intel 4004 <span class="ans">B</span> &nbsp; C) 8085 &nbsp; D) 8051</div>
+                    <div class="mcq-item"><span class="q">37. પ્રથમ સાચું માઇક્રોકંટ્રોલર?</span><br>A) Intel 4004 &nbsp; B) TMS 1000 <span class="ans">B</span> &nbsp; C) 8051 &nbsp; D) ARM</div>
+                    <div class="mcq-item"><span class="q">38. Intel MCS‑48 કયા વર્ષે?</span><br>A) 1971 &nbsp; B) 1974 &nbsp; C) 1976 <span class="ans">C</span> &nbsp; D) 1980</div>
+                    <div class="mcq-item"><span class="q">39. 8‑bit MCU ક્યારે લોકપ્રિય?</span><br>A) 1970s &nbsp; B) 1980s <span class="ans">B</span> &nbsp; C) 1990s &nbsp; D) 2000s</div>
+                    <div class="mcq-item"><span class="q">40. 32‑bit MCU ક્યારે?</span><br>A) 1970s &nbsp; B) 1980s &nbsp; C) 1990s &nbsp; D) 2000s <span class="ans">D</span></div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 9                                                       -->
+        <!-- ============================================================ -->
+        <h2>9. Introduction to Microcontrollers</h2>
+
+        <div class="info-box imp-box">
+            <strong>⭐ માઇક્રોકંટ્રોલર (MCU)</strong> = CPU + RAM + ROM + I/O + ટાઇમર્સ + ઇન્ટરપ્ટ — બધું એક ચિપ પર
+        </div>
+
+        <h4>⭐ Microprocessor vs Microcontroller</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>માઇક્રોપ્રોસેસર</th><th>માઇક્રોકંટ્રોલર</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ઘટકો</strong></td><td>ફક્ત CPU</td><td>CPU + RAM + ROM + I/O</td></tr>
+                    <tr><td><strong>કિંમત</strong></td><td>વધુ</td><td>ઓછી</td></tr>
+                    <tr><td><strong>પાવર</strong></td><td>વધુ</td><td>ઓછી</td></tr>
+                    <tr><td><strong>ઉપયોગ</strong></td><td>સામાન્ય હેતુ</td><td>એમ્બેડેડ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 9 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">41. માઇક્રોકંટ્રોલર શું છે?</span><br>A) ફક્ત CPU &nbsp; B) CPU + મેમરી + I/O <span class="ans">B</span><br>C) ફક્ત મેમરી &nbsp; D) ફક્ત I/O</div>
+                    <div class="mcq-item"><span class="q">42. MCU નો ઉપયોગ ક્યાં?</span><br>A) સુપર કમ્પ્યુટર &nbsp; B) એમ્બેડેડ <span class="ans">B</span><br>C) મેઇનફ્રેમ &nbsp; D) સર્વર</div>
+                    <div class="mcq-item"><span class="q">43. MCU કરતાં MPU શું?</span><br>A) વધુ ઝડપી &nbsp; B) વધુ મોંઘો &nbsp; C) ઓછો ખર્ચાળ <span class="ans">C</span> &nbsp; D) વધુ ક્ષમતાવાન</div>
+                    <div class="mcq-item"><span class="q">44. MCU માં શું સમાવિષ્ટ?</span><br>A) ALU &nbsp; B) ALU+CU &nbsp; C) ALU+CU+મેમરી+I/O <span class="ans">C</span> &nbsp; D) ફક્ત મેમરી</div>
+                    <div class="mcq-item"><span class="q">45. MCU કઈ એપ્લિકેશન માટે યોગ્ય?</span><br>A) ગેમિંગ &nbsp; B) વિડિયો એડિટિંગ &nbsp; C) એમ્બેડેડ <span class="ans">C</span> &nbsp; D) 3D</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 10                                                      -->
+        <!-- ============================================================ -->
+        <h2>10. 8051 Microcontroller</h2>
+
+        <div class="info-box imp-box">
+            <strong>⭐ Intel 8051</strong> — 8‑bit MCU · 4 KB ROM · 128 B RAM · 2×16‑bit ટાઇમર્સ · 4×8‑bit I/O પોર્ટ્સ · 5 ઇન્ટરપ્ટ્સ · 40‑pin DIP
+        </div>
+
+        <h4>8051 આર્કિટેક્ચર</h4>
+        <div class="code-block">
+            ┌──────────────────────────────────────────────────────────────┐
+            │                    8051 માઇક્રોકંટ્રોલર                   │
+            ├──────────────────────────────────────────────────────────────┤
+            │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+            │  │    ALU      │  │    ROM      │  │    RAM      │        │
+            │  │  (8‑bit)    │  │   (4 KB)    │  │  (128 B)    │        │
+            │  └─────────────┘  └─────────────┘  └─────────────┘        │
+            │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+            │  │  ટાઇમર 0   │  │  ટાઇમર 1   │  │  ઇન્ટરપ્ટ  │        │
+            │  │  (16‑bit)   │  │  (16‑bit)   │  │ કંટ્રોલર  │        │
+            │  └─────────────┘  └─────────────┘  └─────────────┘        │
+            │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+            │  │   Port 0    │  │   Port 1    │  │   Port 2    │        │
+            │  │   (8‑bit)   │  │   (8‑bit)   │  │   (8‑bit)   │        │
+            │  └─────────────┘  └─────────────┘  └─────────────┘        │
+            │  ┌─────────────┐  ┌─────────────┐                         │
+            │  │   Port 3    │  │ સીરિયલ    │                         │
+            │  │   (8‑bit)   │  │ પોર્ટ     │                         │
+            │  └─────────────┘  └─────────────┘                         │
+            └──────────────────────────────────────────────────────────────┘
+        </div>
+
+        <h4>⭐ 8051 vs 8085</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>8085</th><th>8051</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>પ્રકાર</strong></td><td>માઇક્રોપ્રોસેસર</td><td>માઇક્રોકંટ્રોલર</td></tr>
+                    <tr><td><strong>ROM</strong></td><td>બાહ્ય</td><td>4 KB આંતરિક</td></tr>
+                    <tr><td><strong>RAM</strong></td><td>બાહ્ય</td><td>128 B આંતરિક</td></tr>
+                    <tr><td><strong>I/O</strong></td><td>બાહ્ય</td><td>4 પોર્ટ્સ</td></tr>
+                    <tr><td><strong>ટાઇમર્સ</strong></td><td>બાહ્ય</td><td>2×16‑bit</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 10 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">46. 8051 માં કેટલી ROM?</span><br>A) 128 B &nbsp; B) 4 KB <span class="ans">B</span> &nbsp; C) 64 KB &nbsp; D) 1 MB</div>
+                    <div class="mcq-item"><span class="q">47. 8051 માં કેટલા ટાઇમર્સ?</span><br>A) 1 &nbsp; B) 2 <span class="ans">B</span> &nbsp; C) 3 &nbsp; D) 4</div>
+                    <div class="mcq-item"><span class="q">48. 8051 માં કેટલા I/O પોર્ટ્સ?</span><br>A) 1 &nbsp; B) 2 &nbsp; C) 3 &nbsp; D) 4 <span class="ans">D</span></div>
+                    <div class="mcq-item"><span class="q">49. 8051 કેટલા પિનનો?</span><br>A) 20 &nbsp; B) 28 &nbsp; C) 40 <span class="ans">C</span> &nbsp; D) 64</div>
+                    <div class="mcq-item"><span class="q">50. 8051 માં કેટલી RAM?</span><br>A) 128 B <span class="ans">A</span> &nbsp; B) 4 KB &nbsp; C) 64 KB &nbsp; D) 1 MB</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 11                                                      -->
+        <!-- ============================================================ -->
+        <h2>11. Assembly Language Programming (8051)</h2>
+
+        <div class="info-box">
+            <strong>📌 8051 એસેમ્બલી:</strong> 6 જૂથો — ડેટા ટ્રાન્સફર · ગાણિતિક · લોજિકલ · બ્રાન્ચિંગ · બીટ પ્રોસેસિંગ · સબરૂટીન
+        </div>
+
+        <h4>⭐ મહત્વના ઇન્સ્ટ્રક્શન્સ</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>ઇન્સ્ટ્રક્શન</th><th>કાર્ય</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>MOV A, #data</strong></td><td>તાત્કાલિક મૂલ્ય A માં</td></tr>
+                    <tr><td><strong>ADD A, Rn</strong></td><td>A = A + Rn</td></tr>
+                    <tr><td><strong>SUBB A, Rn</strong></td><td>A = A − Rn − CY</td></tr>
+                    <tr><td><strong>MUL AB</strong></td><td>A × B (16‑bit)</td></tr>
+                    <tr><td><strong>DIV AB</strong></td><td>A ÷ B</td></tr>
+                    <tr><td><strong>DJNZ Rn, addr</strong></td><td>Rn‑1, જો ≠0 તો જમ્પ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 11 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">51. MOV A,#55H માં # શું?</span><br>A) Direct &nbsp; B) Immediate <span class="ans">B</span> &nbsp; C) Register &nbsp; D) Indirect</div>
+                    <div class="mcq-item"><span class="q">52. MUL AB શું કરે?</span><br>A) A×B <span class="ans">A</span> &nbsp; B) A+B &nbsp; C) A−B &nbsp; D) A÷B</div>
+                    <div class="mcq-item"><span class="q">53. DJNZ શું કરે?</span><br>A) ડિક્રિમેન્ટ+જમ્પ <span class="ans">A</span> &nbsp; B) ઇન્ક્રિમેન્ટ+જમ્પ<br>C) ડિક્રિમેન્ટ+રિટર્ન &nbsp; D) ઇન્ક્રિમેન્ટ+રિટર્ન</div>
+                    <div class="mcq-item"><span class="q">54. LCALL શું કરે?</span><br>A) લોંગ કોલ <span class="ans">A</span> &nbsp; B) શોર્ટ કોલ<br>C) અનકન્ડિશનલ જમ્પ &nbsp; D) રિટર્ન</div>
+                    <div class="mcq-item"><span class="q">55. 8051 માં સબરૂટીનમાંથી પાછા ફરવા માટે?</span><br>A) CALL &nbsp; B) JMP &nbsp; C) RET <span class="ans">C</span> &nbsp; D) SJMP</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 12                                                      -->
+        <!-- ============================================================ -->
+        <h2>12. Advanced Programming Techniques</h2>
+
+        <div class="info-box">
+            <strong>📌 અદ્યતન ટેકનિક્સ:</strong> C પ્રોગ્રામિંગ · ISR · ટાઇમર્સ · ફ્લેગ્સ · રજિસ્ટર બેંક્સ
+        </div>
+
+        <h4>ISR ઉદાહરણ (C)</h4>
+        <div class="code-block">
+            // ઇન્ટરપ્ટ 0 માટે ISR
+            void ISR0(void) interrupt 0 {
+                P1 = 0xFF;    // LED ઓન
+            }
+
+            // ટાઇમર 0 ઇન્ટરપ્ટ
+            void Timer0_ISR(void) interrupt 1 {
+                TH0 = 0x00;
+                TL0 = 0x00;
+                // ટાઇમર કોડ
+            }
+        </div>
+
+        <details>
+            <summary>📝 Topic 12 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">56. 8051 માટે C નો ફાયદો?</span><br>A) ઝડપી વિકાસ <span class="ans">A</span> &nbsp; B) ઓછી મેમરી<br>C) ધીમી એક્સેક્યુશન &nbsp; D) જટિલ સિન્ટેક્સ</div>
+                    <div class="mcq-item"><span class="q">57. ISR શું છે?</span><br>A) ઇન્ટરપ્ટ હેન્ડલ કરતું ફંક્શન <span class="ans">A</span><br>B) મેઇન &nbsp; C) લાઇબ્રેરી &nbsp; D) ડેટા ટાઇપ</div>
+                    <div class="mcq-item"><span class="q">58. સૌથી ચોક્કસ ડિલે પદ્ધતિ?</span><br>A) for લૂપ &nbsp; B) while &nbsp; C) ટાઇમર <span class="ans">C</span> &nbsp; D) ડિલે</div>
+                    <div class="mcq-item"><span class="q">59. ફ્લેગ વેરીએબલનો ઉપયોગ?</span><br>A) સ્ટેટસ ઇન્ડિકેશન <span class="ans">A</span> &nbsp; B) ડેટા સ્ટોર<br>C) કાઉન્ટિંગ &nbsp; D) એડ્રેસિંગ</div>
+                    <div class="mcq-item"><span class="q">60. રજિસ્ટર બેંકનો ઉપયોગ?</span><br>A) ઝડપી ડેટા એક્સેસ <span class="ans">A</span> &nbsp; B) વધુ મેમરી<br>C) ધીમી એક્સેસ &nbsp; D) કોઈ ઉપયોગ</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 13                                                      -->
+        <!-- ============================================================ -->
+        <h2>13. External Peripheral Devices</h2>
+
+        <div class="info-box">
+            <strong>📌 સામાન્ય પેરિફેરલ્સ:</strong> LCD · 7‑સેગમેન્ટ · કીબોર્ડ · ADC · EEPROM · PWM (મોટર)
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>પેરિફેરલ</th><th>ઇન્ટરફેસ</th><th>ઉપયોગ</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>LCD</strong></td><td>4/8‑bit પેરેલલ</td><td>ટેક્સ્ટ/ગ્રાફિક્સ</td></tr>
+                    <tr><td><strong>7‑સેગમેન્ટ</strong></td><td>પેરેલલ</td><td>નંબર ડિસ્પ્લે</td></tr>
+                    <tr><td><strong>ADC</strong></td><td>I2C/SPI</td><td>એનાલોગ સિગ્નલ</td></tr>
+                    <tr><td><strong>EEPROM</strong></td><td>I2C/SPI</td><td>ડેટા સ્ટોર</td></tr>
+                    <tr><td><strong>PWM</strong></td><td>—</td><td>મોટર કંટ્રોલ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 13 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">61. ADC શું કરે?</span><br>A) એનાલોગ→ડિજિટલ <span class="ans">A</span> &nbsp; B) ડિજિટલ→એનાલોગ<br>C) સ્ટોર &nbsp; D) ડિલીટ</div>
+                    <div class="mcq-item"><span class="q">62. મોટર કંટ્રોલ માટે કયું?</span><br>A) ADC &nbsp; B) PWM <span class="ans">B</span> &nbsp; C) UART &nbsp; D) SPI</div>
+                    <div class="mcq-item"><span class="q">63. EEPROM શા માટે?</span><br>A) સ્ટોરેજ <span class="ans">A</span> &nbsp; B) ડિસ્પ્લે &nbsp; C) ઇનપુટ &nbsp; D) એનાલોગ</div>
+                    <div class="mcq-item"><span class="q">64. UART શું છે?</span><br>A) સીરિયલ કમ્યુનિકેશન <span class="ans">A</span> &nbsp; B) પેરેલલ<br>C) એનાલોગ &nbsp; D) વાયરલેસ</div>
+                    <div class="mcq-item"><span class="q">65. 7‑સેગમેન્ટ ડિસ્પ્લે શા માટે?</span><br>A) નંબર ડિસ્પ્લે <span class="ans">A</span> &nbsp; B) ટેક્સ્ટ &nbsp; C) ગ્રાફિક્સ &nbsp; D) ઓડિયો</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 14                                                      -->
+        <!-- ============================================================ -->
+        <h2>14. RISC and CISC Architecture</h2>
+
+        <div class="info-box imp-box">
+            <strong>⭐ RISC:</strong> ઓછા, સરળ ઇન્સ્ટ્રક્શન્સ · 1 સાયકલ · હાર્ડવાયર્ડ · ARM, MIPS <br>
+            <strong>⭐ CISC:</strong> વધુ, જટિલ ઇન્સ્ટ્રક્શન્સ · બહુવિધ સાયકલ · માઇક્રોકોડ · x86, 8085
+        </div>
+
+        <h4>⭐ RISC vs CISC</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>RISC</th><th>CISC</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ઇન્સ્ટ્રક્શન્સ</strong></td><td>ઓછા, સરળ</td><td>વધુ, જટિલ</td></tr>
+                    <tr><td><strong>ઇન્સ્ટ્રક્શન સાઇઝ</strong></td><td>નિશ્ચિત</td><td>ચલ</td></tr>
+                    <tr><td><strong>એક્સેક્યુશન</strong></td><td>1 સાયકલ</td><td>બહુવિધ</td></tr>
+                    <tr><td><strong>કંટ્રોલ</strong></td><td>હાર્ડવાયર્ડ</td><td>માઇક્રોકોડ</td></tr>
+                    <tr><td><strong>ઉદાહરણ</strong></td><td>ARM, MIPS</td><td>x86, 8085</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 14 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">66. RISC નું પૂરું નામ?</span><br>A) Reduced Instruction Set Computer <span class="ans">A</span><br>B) Random &nbsp; C) Regular &nbsp; D) Rapid</div>
+                    <div class="mcq-item"><span class="q">67. CISC માં ઇન્સ્ટ્રક્શન સાઇઝ?</span><br>A) નિશ્ચિત &nbsp; B) ચલ <span class="ans">B</span> &nbsp; C) 1 બાઇટ &nbsp; D) 2 બાઇટ</div>
+                    <div class="mcq-item"><span class="q">68. RISC માં એક્સેક્યુશન સાયકલ?</span><br>A) 1 <span class="ans">A</span> &nbsp; B) 2 &nbsp; C) 3 &nbsp; D) 4</div>
+                    <div class="mcq-item"><span class="q">69. કયું RISC નું ઉદાહરણ?</span><br>A) Intel x86 &nbsp; B) ARM <span class="ans">B</span> &nbsp; C) 8085 &nbsp; D) 8051</div>
+                    <div class="mcq-item"><span class="q">70. CISC માં કયો કંટ્રોલ?</span><br>A) હાર્ડવાયર્ડ &nbsp; B) માઇક્રોકોડ <span class="ans">B</span> &nbsp; C) નો &nbsp; D) સોફ્ટવેર</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- TOPIC 15                                                      -->
+        <!-- ============================================================ -->
+        <h2>15. Advanced RISC Machines (ARM)</h2>
+
+        <div class="info-box imp-box">
+            <strong>⭐ ARM (Advanced RISC Machine)</strong> — 32‑bit RISC · ઓછી પાવર · ઉચ્ચ પ્રદર્શન · મોબાઇલ, IoT, એમ્બેડેડ
+        </div>
+
+        <h4>ARM ફેમિલી</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>શ્રેણી</th><th>ઉદાહરણ</th><th>ઉપયોગ</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Cortex‑M</strong></td><td>M0, M3, M4, M7</td><td>માઇક્રોકંટ્રોલર</td></tr>
+                    <tr><td><strong>Cortex‑R</strong></td><td>R4, R5, R7</td><td>રીઅલ‑ટાઇમ</td></tr>
+                    <tr><td><strong>Cortex‑A</strong></td><td>A7, A9, A15, A53</td><td>એપ્લિકેશન પ્રોસેસર</td></tr>
+                    <tr><td><strong>ARM7/9/11</strong></td><td>ARM7TDMI, ARM9</td><td>લીગસી/એમ્બેડેડ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <details>
+            <summary>📝 Topic 15 – MCQ (5)</summary>
+            <div class="inner">
+                <div class="mcq-grid">
+                    <div class="mcq-item"><span class="q">71. ARM નું પૂરું નામ?</span><br>A) Advanced RISC Machine <span class="ans">A</span> &nbsp; B) Advanced Random<br>C) Acorn RISC &nbsp; D) A અને C બંને</div>
+                    <div class="mcq-item"><span class="q">72. ARM કેટલા બિટનો?</span><br>A) 8‑bit &nbsp; B) 16‑bit &nbsp; C) 32‑bit <span class="ans">C</span> &nbsp; D) 64‑bit</div>
+                    <div class="mcq-item"><span class="q">73. ARM નો ઉપયોગ મુખ્યત્વે ક્યાં?</span><br>A) સુપર કમ્પ્યુટર &nbsp; B) મોબાઇલ <span class="ans">B</span><br>C) મેઇનફ્રેમ &nbsp; D) સર્વર</div>
+                    <div class="mcq-item"><span class="q">74. Cortex‑M શ્રેણી શા માટે?</span><br>A) માઇક્રોકંટ્રોલર <span class="ans">A</span> &nbsp; B) એપ્લિકેશન<br>C) રીઅલ‑ટાઇમ &nbsp; D) સર્વર</div>
+                    <div class="mcq-item"><span class="q">75. ARM નો મુખ્ય ફાયદો?</span><br>A) ઊંચી ઝડપ &nbsp; B) ઓછી પાવર <span class="ans">B</span> &nbsp; C) મોટી મેમરી &nbsp; D) વધુ કિંમત</div>
+                </div>
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- COMPARISON TABLES                                             -->
+        <!-- ============================================================ -->
+        <h2>📊 Comparison Tables (યાદ રાખો)</h2>
+
+        <h4>Microprocessor vs Microcontroller</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>માઇક્રોપ્રોસેસર</th><th>માઇક્રોકંટ્રોલર</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ઘટકો</strong></td><td>ફક્ત CPU</td><td>CPU + RAM + ROM + I/O</td></tr>
+                    <tr><td><strong>કિંમત</strong></td><td>વધુ</td><td>ઓછી</td></tr>
+                    <tr><td><strong>પાવર</strong></td><td>વધુ</td><td>ઓછી</td></tr>
+                    <tr><td><strong>ઝડપ</strong></td><td>ઊંચી</td><td>ઓછી</td></tr>
+                    <tr><td><strong>ઉપયોગ</strong></td><td>સામાન્ય હેતુ</td><td>એમ્બેડેડ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>8085 vs 8051</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>8085</th><th>8051</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>પ્રકાર</strong></td><td>માઇક્રોપ્રોસેસર</td><td>માઇક્રોકંટ્રોલર</td></tr>
+                    <tr><td><strong>ROM</strong></td><td>બાહ્ય</td><td>4 KB</td></tr>
+                    <tr><td><strong>RAM</strong></td><td>બાહ્ય</td><td>128 B</td></tr>
+                    <tr><td><strong>I/O</strong></td><td>બાહ્ય</td><td>4 પોર્ટ્સ</td></tr>
+                    <tr><td><strong>ટાઇમર્સ</strong></td><td>બાહ્ય</td><td>2×16‑bit</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>RISC vs CISC</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>RISC</th><th>CISC</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ઇન્સ્ટ્રક્શન્સ</strong></td><td>ઓછા, સરળ</td><td>વધુ, જટિલ</td></tr>
+                    <tr><td><strong>ઇન્સ્ટ્રક્શન સાઇઝ</strong></td><td>નિશ્ચિત</td><td>ચલ</td></tr>
+                    <tr><td><strong>એક્સેક્યુશન</strong></td><td>1 સાયકલ</td><td>બહુવિધ</td></tr>
+                    <tr><td><strong>કંટ્રોલ</strong></td><td>હાર્ડવાયર્ડ</td><td>માઇક્રોકોડ</td></tr>
+                    <tr><td><strong>ઉદાહરણ</strong></td><td>ARM, MIPS</td><td>x86, 8085</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h4>RAM vs ROM</h4>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>લાક્ષણિકતા</th><th>RAM</th><th>ROM</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>ઓપરેશન</strong></td><td>રીડ/રાઇટ</td><td>ફક્ત રીડ</td></tr>
+                    <tr><td><strong>વોલેટિલિટી</strong></td><td>વોલેટાઇલ</td><td>નોન‑વોલેટાઇલ</td></tr>
+                    <tr><td><strong>ઝડપ</strong></td><td>ખૂબ ઝડપી</td><td>ઝડપી (ધીમી)</td></tr>
+                    <tr><td><strong>ક્ષમતા</strong></td><td>ગીગાબાઇટ્સ</td><td>મેગાબાઇટ્સ</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- VIVA QUESTIONS                                                -->
+        <!-- ============================================================ -->
+        <h2>🎤 Viva Questions &amp; Answers</h2>
+
+        <details>
+            <summary><strong>Q1.</strong> માઇક્રોપ્રોસેસર અને માઇક્રોકંટ્રોલર વચ્ચે શું તફાવત?</summary>
+            <div class="inner">
+                માઇક્રોપ્રોસેસરમાં ફક્ત CPU હોય છે; માઇક્રોકંટ્રોલરમાં CPU + RAM + ROM + I/O બધું એક ચિપ પર. MPU સામાન્ય હેતુ, MCU એમ્બેડેડ.
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q2.</strong> 8085 ના મુખ્ય ઘટકો કયા?</summary>
+            <div class="inner">
+                ALU, રજિસ્ટર ફાઇલ (A,B,C,D,E,H,L,PC,SP,Flag), કંટ્રોલ યુનિટ, ઇન્સ્ટ્રક્શન ડીકોડર, ઇન્ટરપ્ટ કંટ્રોલ, સીરિયલ I/O, બસ ઇન્ટરફેસ.
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q3.</strong> 8085 ના Flag Register માં કયા ફ્લેગ્સ?</summary>
+            <div class="inner">
+                S (Sign), Z (Zero), AC (Auxiliary Carry), P (Parity), CY (Carry).
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q4.</strong> RISC અને CISC વચ્ચે તફાવત?</summary>
+            <div class="inner">
+                RISC: ઓછા, સરળ ઇન્સ્ટ્રક્શન્સ, 1 સાયકલ, હાર્ડવાયર્ડ (ARM). CISC: વધુ, જટિલ, બહુવિધ સાયકલ, માઇક્રોકોડ (x86).
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q5.</strong> ARM શું છે અને ક્યાં વપરાય?</summary>
+            <div class="inner">
+                ARM = Advanced RISC Machine, 32‑bit RISC, ઓછી પાવર, ઉચ્ચ પ્રદર્શન. ઉપયોગ: મોબાઇલ, IoT, એમ્બેડેડ, સ્માર્ટ ઉપકરણો.
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q6.</strong> 8051 ની મુખ્ય લાક્ષણિકતાઓ?</summary>
+            <div class="inner">
+                8‑bit CPU · 4 KB ROM · 128 B RAM · 2×16‑bit ટાઇમર્સ · 4×8‑bit I/O · 5 ઇન્ટરપ્ટ્સ · 40 પિન.
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q7.</strong> 8085 માં કયા ઇન્ટરપ્ટ્સ?</summary>
+            <div class="inner">
+                TRAP (non‑maskable, highest), RST 7.5, RST 6.5, RST 5.5, INTR (lowest).
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q8.</strong> RAM અને ROM વચ્ચે તફાવત?</summary>
+            <div class="inner">
+                RAM: રીડ/રાઇટ, વોલેટાઇલ, ઝડપી. ROM: ફક્ત રીડ, નોન‑વોલેટાઇલ, ધીમી.
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q9.</strong> પાઇપલાઇનિંગ શું છે?</summary>
+            <div class="inner">
+                એક સમયે બહુવિધ ઇન્સ્ટ્રક્શન્સ ઓવરલેપ કરવાની ટેકનિક, પ્રોસેસરની કાર્યક્ષમતા વધે.
+            </div>
+        </details>
+
+        <details>
+            <summary><strong>Q10.</strong> 8085 અને 8051 વચ્ચે તફાવત?</summary>
+            <div class="inner">
+                8085 MPU છે, 8051 MCU છે. 8085 બાહ્ય મેમરી, 8051 આંતરિક 4 KB ROM + 128 B RAM + ટાઇમર્સ + I/O.
+            </div>
+        </details>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- 100 MOST IMPORTANT MCQs (અહીં બધા 100 આપેલા છે, પરંતુ space બચાવવા 25 દર્શાવ્યા; full list ઉપરના details માં છે) -->
+        <!-- ============================================================ -->
+        <h2>📝 100 Most Important MCQs with Answers</h2>
+        <p style="color:#3f5e7e; margin-bottom:14px;">
+            <strong>નોંધ:</strong> અહીં 25 પ્રતિનિધિ પ્રશ્નો આપ્યા છે. સંપૂર્ણ 100 MCQ માટે ઉપરના દરેક ટોપિકના <strong>MCQ વિભાગો</strong> જુઓ.
+        </p>
+
+        <div class="mcq-grid">
+            <div class="mcq-item"><span class="q">1.</span> માઇક્રોપ્રોસેસર શું છે? <span class="ans">B) CPU ધરાવતી IC</span></div>
+            <div class="mcq-item"><span class="q">2.</span> 8085 કેટલા બિટનો? <span class="ans">B) 8‑bit</span></div>
+            <div class="mcq-item"><span class="q">3.</span> 8085 ની એડ્રેસ બસ? <span class="ans">C) 16‑bit</span></div>
+            <div class="mcq-item"><span class="q">4.</span> 8085 માટે પાવર? <span class="ans">B) +5V</span></div>
+            <div class="mcq-item"><span class="q">5.</span> 8085 માં ઇન્ટરપ્ટ્સ? <span class="ans">D) 5</span></div>
+            <div class="mcq-item"><span class="q">6.</span> MOV A,B શું કરે? <span class="ans">B) B→A</span></div>
+            <div class="mcq-item"><span class="q">7.</span> કયું ઇન્ટરપ્ટ નોન‑માસ્કેબલ? <span class="ans">D) TRAP</span></div>
+            <div class="mcq-item"><span class="q">8.</span> RAM નું પૂરું નામ? <span class="ans">A) Random Access Memory</span></div>
+            <div class="mcq-item"><span class="q">9.</span> પ્રથમ માઇક્રોપ્રોસેસર? <span class="ans">B) Intel 4004</span></div>
+            <div class="mcq-item"><span class="q">10.</span> RISC નું પૂરું નામ? <span class="ans">A) Reduced Instruction Set Computer</span></div>
+            <div class="mcq-item"><span class="q">11.</span> 8051 માં ROM? <span class="ans">B) 4 KB</span></div>
+            <div class="mcq-item"><span class="q">12.</span> 8051 માં ટાઇમર્સ? <span class="ans">B) 2</span></div>
+            <div class="mcq-item"><span class="q">13.</span> 8051 માં I/O પોર્ટ્સ? <span class="ans">D) 4</span></div>
+            <div class="mcq-item"><span class="q">14.</span> 8051 પિન્સ? <span class="ans">C) 40</span></div>
+            <div class="mcq-item"><span class="q">15.</span> MUL AB શું કરે? <span class="ans">A) A×B</span></div>
+            <div class="mcq-item"><span class="q">16.</span> DJNZ શું કરે? <span class="ans">A) ડિક્રિમેન્ટ+જમ્પ</span></div>
+            <div class="mcq-item"><span class="q">17.</span> LCALL શું કરે? <span class="ans">A) લોંગ કોલ</span></div>
+            <div class="mcq-item"><span class="q">18.</span> ADC શું કરે? <span class="ans">A) એનાલોગ→ડિજિટલ</span></div>
+            <div class="mcq-item"><span class="q">19.</span> UART શું છે? <span class="ans">A) સીરિયલ કમ્યુનિકેશન</span></div>
+            <div class="mcq-item"><span class="q">20.</span> RISC એક્સેક્યુશન સાયકલ? <span class="ans">A) 1</span></div>
+            <div class="mcq-item"><span class="q">21.</span> ARM કેટલા બિટનો? <span class="ans">C) 32‑bit</span></div>
+            <div class="mcq-item"><span class="q">22.</span> Cortex‑M શ્રેણી? <span class="ans">A) માઇક્રોકંટ્રોલર</span></div>
+            <div class="mcq-item"><span class="q">23.</span> ARM નો મુખ્ય ફાયદો? <span class="ans">B) ઓછી પાવર</span></div>
+            <div class="mcq-item"><span class="q">24.</span> EPROM ઇરેઝ કેવી રીતે? <span class="ans">A) UV લાઇટ</span></div>
+            <div class="mcq-item"><span class="q">25.</span> 8085 ની ક્લોક? <span class="ans">C) 3 MHz</span></div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- QUICK REVISION NOTES                                          -->
+        <!-- ============================================================ -->
+        <h2>📋 Quick Revision Notes</h2>
+
+        <div class="revision-grid">
+            <div class="rev-card">
+                <h4>8085</h4>
+                <ul>
+                    <li><strong>8‑bit</strong> · 16‑bit એડ્રેસ</li>
+                    <li><strong>3 MHz</strong> · +5V</li>
+                    <li>5 ઇન્ટરપ્ટ્સ</li>
+                    <li>80 ઇન્સ્ટ્રક્શન્સ</li>
+                    <li>Flags: S,Z,AC,P,CY</li>
+                </ul>
+            </div>
+            <div class="rev-card">
+                <h4>8051</h4>
+                <ul>
+                    <li><strong>8‑bit</strong> CPU</li>
+                    <li><strong>4 KB</strong> ROM · <strong>128 B</strong> RAM</li>
+                    <li><strong>2</strong> ટાઇમર્સ</li>
+                    <li><strong>4</strong> I/O પોર્ટ્સ</li>
+                    <li><strong>40</strong> પિન્સ</li>
+                </ul>
+            </div>
+            <div class="rev-card">
+                <h4>RISC vs CISC</h4>
+                <ul>
+                    <li><strong>RISC:</strong> ઓછા, 1 સાયકલ, ARM</li>
+                    <li><strong>CISC:</strong> વધુ, બહુવિધ, x86</li>
+                </ul>
+            </div>
+            <div class="rev-card">
+                <h4>RAM vs ROM</h4>
+                <ul>
+                    <li><strong>RAM:</strong> રીડ/રાઇટ, વોલેટાઇલ</li>
+                    <li><strong>ROM:</strong> ફક્ત રીડ, નોન‑વોલેટાઇલ</li>
+                </ul>
+            </div>
+            <div class="rev-card">
+                <h4>MPU vs MCU</h4>
+                <ul>
+                    <li><strong>MPU:</strong> ફક્ત CPU</li>
+                    <li><strong>MCU:</strong> CPU + RAM + ROM + I/O</li>
+                </ul>
+            </div>
+            <div class="rev-card">
+                <h4>ARM</h4>
+                <ul>
+                    <li><strong>32‑bit</strong> RISC</li>
+                    <li>ઓછી પાવર</li>
+                    <li>મોબાઇલ, IoT</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- LAST DAY REVISION SHEET                                      -->
+        <!-- ============================================================ -->
+        <h2>📅 Last Day Revision Sheet (10 મિનિટમાં યાદ રાખો)</h2>
+
+        <div style="background:#eaf3fc; border-radius:18px; padding:22px 28px; margin:18px 0 10px 0;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
+                <div>
+                    <h4 style="margin-top:0;">🔹 8085</h4>
+                    <ul style="padding-left:20px;">
+                        <li><strong>8‑bit</strong> · 16‑bit એડ્રેસ (64 KB)</li>
+                        <li><strong>3 MHz</strong> · +5V</li>
+                        <li><strong>5</strong> ઇન્ટરપ્ટ્સ (TRAP non‑mask)</li>
+                        <li><strong>80</strong> ઇન્સ્ટ્રક્શન્સ</li>
+                        <li>Flags: S, Z, AC, P, CY</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-top:0;">🔹 8051</h4>
+                    <ul style="padding-left:20px;">
+                        <li><strong>8‑bit</strong> CPU</li>
+                        <li><strong>4 KB</strong> ROM · <strong>128 B</strong> RAM</li>
+                        <li><strong>2</strong> ટાઇમર્સ · <strong>4</strong> I/O</li>
+                        <li><strong>40</strong> પિન્સ · <strong>5</strong> ઇન્ટરપ્ટ્સ</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-top:0;">🔹 RISC vs CISC</h4>
+                    <ul style="padding-left:20px;">
+                        <li><strong>RISC:</strong> ઓછા, 1 સાયકલ, હાર્ડવાયર્ડ, ARM</li>
+                        <li><strong>CISC:</strong> વધુ, બહુવિધ, માઇક્રોકોડ, x86</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin-top:0;">🔹 RAM vs ROM</h4>
+                    <ul style="padding-left:20px;">
+                        <li><strong>RAM:</strong> રીડ/રાઇટ, વોલેટાઇલ</li>
+                        <li><strong>ROM:</strong> ફક્ત રીડ, નોન‑વોલેટાઇલ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <hr class="hr-divider">
+
+        <!-- ============================================================ -->
+        <!-- FINAL REVISION (SHORT)                                       -->
+        <!-- ============================================================ -->
+        <h2>🏁 અંતિમ પુનરાવર્તન (Final Revision — સૌથી ટૂંકું)</h2>
+
+        <div style="background:#f4f9ff; border-radius:18px; padding:20px 26px; margin-bottom:20px; border:1px solid #cde0f0;">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr)); gap:14px;">
+                <div><strong>8085:</strong> 8‑bit, 16‑bit A, 3 MHz, +5V, 5 INT, 80 INS</div>
+                <div><strong>8051:</strong> 8‑bit, 4KB ROM, 128B RAM, 2 Timers, 4 I/O, 40 pin</div>
+                <div><strong>RISC:</strong> ઓછા INS, 1 cycle, ARM</div>
+                <div><strong>CISC:</strong> વધુ INS, multi cycle, x86</div>
+                <div><strong>RAM:</strong> રીડ/રાઇટ, વોલેટાઇલ</div>
+                <div><strong>ROM:</strong> ફક્ત રીડ, નોન‑વોલેટાઇલ</div>
+                <div><strong>ARM:</strong> 32‑bit RISC, ઓછી પાવર, મોબાઇલ</div>
+                <div><strong>Flag:</strong> S, Z, AC, P, CY</div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOOTER                                                        -->
+        <!-- ============================================================ -->
+        <div class="footer-note">
+            <strong>💡 ટીપ:</strong> MCQs, Viva, Comparison Tables અને Quick Revision પર ધ્યાન કેન્દ્રિત કરો. <br>
+            <span style="font-size:0.9rem;">© 2026 · Wireless PSI Exam Study Material · સંપૂર્ણ ગુજરાતી</span>
+        </div>
+
+    </div>
+    <!-- end container -->
+
+</body>
+</html>
