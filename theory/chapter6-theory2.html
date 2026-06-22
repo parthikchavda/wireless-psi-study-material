@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPMC રિવિઝન — Wireless PSI Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Gujarati:wght@500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff;
+    --paper-2:#f7f8f7;
+    --ink:#181f22;
+    --muted:#5b6770;
+    --line:#e3e7e6;
+    --line-strong:#cfd6d4;
+    --circuit:#1f6b4d;
+    --circuit-dim:#e8f3ee;
+    --circuit-deep:#0e4630;
+    --amber:#a8650e;
+    --amber-bg:#fbf1de;
+    --amber-line:#e7c789;
+    --radius:10px;
+    --mono:'IBM Plex Mono', ui-monospace, monospace;
+    --guj-body:'Noto Sans Gujarati','Noto Sans',sans-serif;
+    --guj-head:'Noto Serif Gujarati','Noto Sans Gujarati',serif;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--guj-body);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.7;
+  }
+
+  a{color:var(--circuit);}
+
+  /* ---------- Layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns: 296px 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- Top bar (mobile only) ---------- */
+  .topbar{
+    display:none;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    position:sticky;
+    top:0;
+    z-index:30;
+  }
+  .topbar .chip-mark{flex:0 0 auto;}
+  .topbar-title{font-family:var(--guj-head);font-weight:700;font-size:1.05rem;}
+  .topbar-sub{font-family:var(--mono);font-size:0.62rem;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
+  .menu-btn{
+    margin-left:auto;
+    width:38px;height:38px;
+    border:1px solid var(--line-strong);
+    background:var(--paper);
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .menu-btn span{display:block;width:16px;height:2px;background:var(--ink);position:relative;}
+  .menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:16px;height:2px;background:var(--ink);}
+  .menu-btn span::before{top:-5px;}
+  .menu-btn span::after{top:5px;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    background:var(--paper-2);
+    border-right:1px solid var(--line);
+    padding:26px 18px 18px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .brand{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding-bottom:18px;
+    margin-bottom:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .brand-text h1{
+    font-family:var(--guj-head);
+    font-size:1.18rem;
+    font-weight:700;
+    margin:0 0 4px;
+    line-height:1.3;
+  }
+  .brand-text p{
+    font-family:var(--mono);
+    font-size:0.62rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--circuit);
+    margin:0;
+  }
+
+  .pinlist{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+  }
+  .pin{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:8px;
+    padding:9px 10px;
+    cursor:pointer;
+    text-align:left;
+    font-family:var(--guj-body);
+    color:var(--ink);
+    font-size:0.92rem;
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .pin:hover{background:var(--circuit-dim);}
+  .pin:focus-visible{outline:2px solid var(--circuit);outline-offset:1px;}
+  .pin.active{
+    background:var(--circuit-dim);
+    border-color:var(--circuit);
+  }
+  .pin-num{
+    font-family:var(--mono);
+    font-size:0.7rem;
+    color:var(--muted);
+    width:20px;
+    flex:0 0 auto;
+  }
+  .pin.active .pin-num{color:var(--circuit-deep);font-weight:600;}
+  .pin-label{flex:1 1 auto;line-height:1.35;}
+  .pin-dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--line-strong);
+    flex:0 0 auto;
+  }
+  .pin.active .pin-dot{background:var(--circuit);box-shadow:0 0 0 3px var(--circuit-dim);}
+
+  .sidebar-foot{
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-family:var(--mono);
+    font-size:0.62rem;
+    letter-spacing:.06em;
+    color:var(--muted);
+    text-transform:uppercase;
+  }
+
+  /* ---------- Main ---------- */
+  main{
+    padding:42px 48px 80px;
+    max-width:880px;
+  }
+  .panel{display:none;}
+  .panel.active{display:block;animation:fadein .25s ease;}
+  @media (prefers-reduced-motion: reduce){
+    .panel.active{animation:none;}
+  }
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+  .ds-strip{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  .ds-strip .ds-tag{
+    color:var(--circuit-deep);
+    font-weight:600;
+    background:var(--circuit-dim);
+    padding:3px 8px;
+    border-radius:5px;
+  }
+  .ds-strip .ds-part{
+    border:1px solid var(--line-strong);
+    padding:3px 8px;
+    border-radius:5px;
+  }
+  .ds-strip .ds-rule{flex:1 1 auto;height:1px;background:var(--line);}
+
+  .panel-head h2{
+    font-family:var(--guj-head);
+    font-size:1.7rem;
+    font-weight:700;
+    margin:0 0 28px;
+    line-height:1.35;
+    padding-bottom:18px;
+    border-bottom:2px solid var(--ink);
+  }
+
+  .panel-body h3{
+    font-family:var(--guj-head);
+    font-size:1.18rem;
+    font-weight:600;
+    margin:34px 0 12px;
+    color:var(--circuit-deep);
+  }
+  .panel-body h3:first-child{margin-top:0;}
+
+  .panel-body p{margin:0 0 14px;}
+  .panel-body ul, .panel-body ol{margin:0 0 16px;padding-left:22px;}
+  .panel-body li{margin-bottom:7px;}
+  .panel-body ul ul, .panel-body ol ul{margin-top:6px;margin-bottom:0;}
+  strong{font-weight:700;color:var(--ink);}
+
+  .table-wrap{
+    overflow-x:auto;
+    margin:0 0 20px;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.93rem;
+    min-width:420px;
+  }
+  thead th{
+    font-family:var(--mono);
+    font-size:0.68rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    text-align:left;
+    background:var(--circuit-dim);
+    color:var(--circuit-deep);
+    padding:10px 14px;
+    border-bottom:1px solid var(--line-strong);
+    white-space:nowrap;
+  }
+  tbody td{
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:#fbfbfa;}
+
+  .tip{
+    display:flex;
+    gap:12px;
+    background:var(--amber-bg);
+    border:1px solid var(--amber-line);
+    border-left:4px solid var(--amber);
+    border-radius:8px;
+    padding:14px 16px;
+    margin:8px 0 22px;
+  }
+  .tip .tip-pin{
+    flex:0 0 auto;
+    font-family:var(--mono);
+    font-size:0.62rem;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--amber);
+    background:var(--paper);
+    border:1px solid var(--amber-line);
+    border-radius:5px;
+    padding:3px 7px;
+    height:fit-content;
+    white-space:nowrap;
+  }
+  .tip-content p{margin:0 0 6px;}
+  .tip-content p:last-child{margin-bottom:0;}
+  .tip-content ul{margin:6px 0 0;padding-left:18px;}
+  .tip-content li{margin-bottom:4px;}
+
+  pre.diagram{
+    font-family:var(--mono);
+    font-size:0.86rem;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 22px;
+    overflow-x:auto;
+    line-height:1.85;
+    margin:0 0 20px;
+    color:var(--circuit-deep);
+  }
+
+  .closing-line{
+    margin-top:40px;
+    padding-top:18px;
+    border-top:1px dashed var(--line-strong);
+    font-family:var(--mono);
+    font-size:0.76rem;
+    color:var(--muted);
+    text-align:center;
+  }
+
+  /* ---------- Chip mark (svg) ---------- */
+  .chip-mark svg{display:block;}
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 880px){
+    .shell{grid-template-columns:1fr;}
+    .topbar{display:flex;}
+    .sidebar{
+      position:fixed;
+      left:0;top:0;bottom:0;
+      width:280px;
+      height:100vh;
+      transform:translateX(-100%);
+      transition:transform .22s ease;
+      z-index:40;
+      box-shadow:0 0 0 rgba(0,0,0,0);
+    }
+    body.sidebar-open .sidebar{
+      transform:translateX(0);
+      box-shadow:8px 0 24px rgba(0,0,0,.12);
+    }
+    body.sidebar-open::after{
+      content:"";
+      position:fixed;inset:0;
+      background:rgba(10,15,13,.32);
+      z-index:35;
+    }
+    main{padding:28px 20px 60px;}
+    .panel-head h2{font-size:1.35rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="chip-mark">
+    <svg width="26" height="26" viewBox="0 0 40 40" fill="none">
+      <rect x="10" y="10" width="20" height="20" rx="2" stroke="#1f6b4d" stroke-width="2"/>
+      <path d="M14 10V13M20 10V13M26 10V13M14 27V30M20 27V30M26 27V30M10 14H13M10 20H13M10 26H13M27 14H30M27 20H30M27 26H30" stroke="#1f6b4d" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <div>
+    <div class="topbar-title">MPMC રિવિઝન</div>
+    <div class="topbar-sub">Wireless PSI · Datasheet Edition</div>
+  </div>
+  <button class="menu-btn" id="menuBtn" aria-label="Topic menu ખોલો"><span></span></button>
+</div>
+
+<div class="shell">
+
+  <nav class="sidebar" id="sidebar" aria-label="Topic selector">
+    <div class="brand">
+      <span class="chip-mark">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none">
+          <rect x="10" y="10" width="20" height="20" rx="2" stroke="#1f6b4d" stroke-width="2"/>
+          <path d="M14 10V13M20 10V13M26 10V13M14 27V30M20 27V30M26 27V30M10 14H13M10 20H13M10 26H13M27 14H30M27 20H30M27 26H30" stroke="#1f6b4d" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1>Microprocessor &amp; Microcontroller</h1>
+        <p>Wireless PSI · Revision Notes</p>
+      </div>
+    </div>
+
+    <ol class="pinlist" id="pinlist">
+      <li><button class="pin active" data-target="panel-1"><span class="pin-num">01</span><span class="pin-label">Microprocessor Architecture</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-2"><span class="pin-num">02</span><span class="pin-label">8085 Instruction &amp; Timing</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-3"><span class="pin-num">03</span><span class="pin-label">8085 Instruction Set</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-4"><span class="pin-num">04</span><span class="pin-label">Programming Techniques</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-5"><span class="pin-num">05</span><span class="pin-label">Advance Microprocessor</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-6"><span class="pin-num">06</span><span class="pin-label">Main Memory System</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-7"><span class="pin-num">07</span><span class="pin-label">Microcontroller Evolution</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-8"><span class="pin-num">08</span><span class="pin-label">8051 Assembly Programming</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-9"><span class="pin-num">09</span><span class="pin-label">Advance Programming (8051)</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-10"><span class="pin-num">10</span><span class="pin-label">External Peripheral Devices</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-11"><span class="pin-num">11</span><span class="pin-label">Advanced RISC Machines (ARM)</span><span class="pin-dot"></span></button></li>
+      <li><button class="pin" data-target="panel-12"><span class="pin-num">12</span><span class="pin-label">Quick Revision Summary</span><span class="pin-dot"></span></button></li>
+    </ol>
+
+    <div class="sidebar-foot">11 Topics · 1 Summary · MPMC Chapter</div>
+  </nav>
+
+  <main id="mainContent">
+
+    <!-- ============ TOPIC 1 ============ -->
+    <section class="panel active" id="panel-1">
+      <div class="ds-strip"><span class="ds-tag">Topic 01</span><span class="ds-part">GENERIC&#8209;CPU</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Microprocessor Architecture &amp; Microprocessor System</h2></header>
+      <div class="panel-body">
+
+        <h3>Microprocessor શું છે?</h3>
+        <ul>
+          <li>Microprocessor એ એક <strong>Single IC Chip</strong> છે જેમાં <strong>ALU (Arithmetic Logic Unit)</strong>, <strong>Control Unit</strong> અને <strong>Registers</strong> હોય છે.</li>
+          <li>તે Memory અને I/O devices સાથે જોડાઈને <strong>Microprocessor System (Computer System)</strong> બનાવે છે.</li>
+          <li>તેને "Brain of Computer System" કહેવાય છે.</li>
+        </ul>
+
+        <h3>Microprocessor ના મુખ્ય Block Diagram Parts</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Block</th><th>કાર્ય</th></tr></thead>
+          <tbody>
+            <tr><td>ALU</td><td>Arithmetic (+, −) અને Logical (AND, OR, NOT) operations કરે</td></tr>
+            <tr><td>Register Array</td><td>Accumulator, B, C, D, E, H, L — temporary data store</td></tr>
+            <tr><td>Instruction Register &amp; Decoder</td><td>Instruction ને decode કરી control unit ને મોકલે</td></tr>
+            <tr><td>Control Unit</td><td>બધા operations ને control/synchronize કરે, timing signals generate કરે</td></tr>
+            <tr><td>Program Counter (PC)</td><td>next instruction નું address રાખે છે (16-bit)</td></tr>
+            <tr><td>Stack Pointer (SP)</td><td>Stack memory નું top address રાખે છે (16-bit)</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>System Bus (3 પ્રકાર) — ખૂબ જ Important</h3>
+        <ol>
+          <li><strong>Address Bus</strong> — Unidirectional, માત્ર address મોકલે (CPU → Memory/IO)</li>
+          <li><strong>Data Bus</strong> — Bidirectional, actual data ટ્રાન્સફર કરે</li>
+          <li><strong>Control Bus</strong> — Control signals (RD, WR, ALE, IO/M વગેરે) મોકલે</li>
+        </ol>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p>Address bus width = memory capacity નક્કી કરે.</p>
+          <p>n-bit address bus → 2ⁿ memory locations.</p>
+          <p>8085: 16-bit address bus → 2¹⁶ = <strong>64 KB</strong> memory addressable.</p>
+        </div></div>
+
+        <h3>Microprocessor System ના Components</h3>
+        <ul>
+          <li><strong>CPU</strong> (Microprocessor)</li>
+          <li><strong>Memory</strong> (RAM + ROM)</li>
+          <li><strong>I/O Devices</strong> (Input/Output)</li>
+          <li>આ ત્રણેય <strong>System Bus</strong> દ્વારા જોડાયેલા હોય છે.</li>
+        </ul>
+
+        <h3>Architecture ના પ્રકાર</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Von Neumann Architecture</th><th>Harvard Architecture</th></tr></thead>
+          <tbody>
+            <tr><td>Single memory data + instruction માટે</td><td>Data અને Instruction માટે અલગ memory</td></tr>
+            <tr><td>Single bus</td><td>Separate bus (faster)</td></tr>
+            <tr><td>8085, 8086 માં વપરાય</td><td>8051 Microcontroller માં વપરાય</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>CISC vs RISC (Important Comparison)</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>CISC</th><th>RISC</th></tr></thead>
+          <tbody>
+            <tr><td>Complex Instruction Set</td><td>Reduced Instruction Set</td></tr>
+            <tr><td>વધારે instructions, variable length</td><td>ઓછા instructions, fixed length</td></tr>
+            <tr><td>Multi-cycle execution</td><td>Single cycle execution (mostly)</td></tr>
+            <tr><td>દા.ત. 8085, 8086, Pentium</td><td>દા.ત. ARM, MIPS</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tip"><span class="tip-pin">MCQ Points</span><div class="tip-content">
+          <p>સંભવિત MCQ Points:</p>
+          <ul>
+            <li>Microprocessor = Programmable device</li>
+            <li>Data bus bidirectional, Address bus unidirectional</li>
+            <li>Control bus → ALE, RD, WR, READY, HOLD વગેરે signals carry કરે</li>
+          </ul>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 2 ============ -->
+    <section class="panel" id="panel-2">
+      <div class="ds-strip"><span class="ds-tag">Topic 02</span><span class="ds-part">i8085</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 8085 Instruction and Timing</h2></header>
+      <div class="panel-body">
+
+        <h3>8085 Microprocessor — Basic Facts (Highly Important)</h3>
+        <ul>
+          <li>8085 એ <strong>Intel</strong> કંપનીનો <strong>8-bit</strong> microprocessor છે.</li>
+          <li><strong>40-pin DIP</strong> package</li>
+          <li><strong>16-bit Address Bus</strong> → 64 KB memory</li>
+          <li><strong>8-bit Data Bus</strong></li>
+          <li>Clock Speed: <strong>3 MHz</strong> (8085A), 5 MHz, 6 MHz versions પણ</li>
+          <li>Single <strong>+5V</strong> power supply</li>
+          <li>Internal architecture: <strong>Von Neumann</strong></li>
+        </ul>
+
+        <h3>Instruction Cycle, Machine Cycle, T-State (બહુ Important Concept)</h3>
+        <ul>
+          <li><strong>Instruction Cycle</strong> = એક instruction ને fetch + execute કરવાનો સંપૂર્ણ સમય</li>
+          <li><strong>Machine Cycle</strong> = CPU અને Memory/IO વચ્ચે એક data transfer operation નો સમય</li>
+          <li><strong>T-State (Clock Period)</strong> = સૌથી નાનું time unit, એક clock pulse નો સમય</li>
+          <li>1 Instruction Cycle = 1 અથવા વધુ Machine Cycles</li>
+          <li>1 Machine Cycle = 3 થી 6 T-States</li>
+        </ul>
+
+        <h3>Machine Cycle ના પ્રકાર (8 પ્રકાર) — Exam માં વારંવાર પુછાય</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Machine Cycle</th><th>T-States</th><th>Control Signal</th></tr></thead>
+          <tbody>
+            <tr><td>Opcode Fetch</td><td>4T</td><td>ALE, RD</td></tr>
+            <tr><td>Memory Read</td><td>3T</td><td>ALE, RD</td></tr>
+            <tr><td>Memory Write</td><td>3T</td><td>ALE, WR</td></tr>
+            <tr><td>I/O Read</td><td>3T</td><td>ALE, IO/M=1, RD</td></tr>
+            <tr><td>I/O Write</td><td>3T</td><td>ALE, IO/M=1, WR</td></tr>
+            <tr><td>Interrupt Acknowledge</td><td>12T (RST) / વધુ</td><td>INTA</td></tr>
+            <tr><td>Bus Idle</td><td>2T/3T</td><td>—</td></tr>
+            <tr><td>Halt</td><td>—</td><td>HLT instruction</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Important Control &amp; Timing Signals</h3>
+        <ul>
+          <li><strong>ALE (Address Latch Enable)</strong> – T1 state માં high, lower address byte ને latch કરવા</li>
+          <li><strong>RD (Read), WR (Write)</strong> – active LOW signals</li>
+          <li><strong>IO/M</strong> – High = I/O operation, Low = Memory operation</li>
+          <li><strong>S0, S1 (Status signals)</strong> – ચાલુ machine cycle નો પ્રકાર દર્શાવે</li>
+        </ul>
+
+        <div class="table-wrap"><table>
+          <thead><tr><th>S1</th><th>S0</th><th>Operation</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>0</td><td>Halt</td></tr>
+            <tr><td>0</td><td>1</td><td>Memory Write</td></tr>
+            <tr><td>1</td><td>0</td><td>Memory Read</td></tr>
+            <tr><td>1</td><td>1</td><td>Opcode Fetch</td></tr>
+          </tbody>
+        </table></div>
+
+        <ul>
+          <li><strong>READY</strong> – Memory/IO device ready છે કે નહિ તે દર્શાવે (wait states માટે)</li>
+          <li><strong>HOLD / HLDA</strong> – Bus ને બીજા device ને આપવા માટે (DMA જેવા)</li>
+          <li><strong>RESET IN / RESET OUT</strong></li>
+          <li><strong>TRAP, RST7.5, RST6.5, RST5.5, INTR</strong> – Interrupt pins</li>
+        </ul>
+
+        <h3>Interrupts of 8085 — ખૂબ Important</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Interrupt</th><th>Type</th><th>Vector Address</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>TRAP</td><td>Non-maskable</td><td>0024H</td><td>Highest</td></tr>
+            <tr><td>RST 7.5</td><td>Maskable</td><td>003CH</td><td>2nd</td></tr>
+            <tr><td>RST 6.5</td><td>Maskable</td><td>0034H</td><td>3rd</td></tr>
+            <tr><td>RST 5.5</td><td>Maskable</td><td>002CH</td><td>4th</td></tr>
+            <tr><td>INTR</td><td>Maskable</td><td>(External via INTA)</td><td>Lowest</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p>TRAP is <strong>edge &amp; level triggered both</strong>, non-maskable, used for power failure detection.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 3 ============ -->
+    <section class="panel" id="panel-3">
+      <div class="ds-strip"><span class="ds-tag">Topic 03</span><span class="ds-part">i8085</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 8085 Instruction Set</h2></header>
+      <div class="panel-body">
+
+        <h3>Instruction Format</h3>
+        <ul>
+          <li><strong>Opcode</strong> (Operation Code) + <strong>Operand</strong> (Data/Address)</li>
+          <li>Instruction Length: 1 byte, 2 byte અથવા 3 byte</li>
+        </ul>
+
+        <h3>Addressing Modes (5 પ્રકાર) — Repeated Exam Question</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Mode</th><th>ઉદાહરણ</th><th>વર્ણન</th></tr></thead>
+          <tbody>
+            <tr><td>Immediate</td><td>MVI A, 05H</td><td>Data સીધું instruction માં</td></tr>
+            <tr><td>Register</td><td>MOV A, B</td><td>Register થી Register</td></tr>
+            <tr><td>Direct</td><td>LDA 2000H</td><td>Direct memory address</td></tr>
+            <tr><td>Indirect (Register Indirect)</td><td>MOV A, M</td><td>HL pair address use કરે</td></tr>
+            <tr><td>Implicit/Implied</td><td>CMA, RLC</td><td>Operand fixed (Accumulator)</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Instruction Classification (5 Groups) — Very Important</h3>
+        <ol>
+          <li><strong>Data Transfer Instructions:</strong> MOV, MVI, LDA, STA, LXI, LHLD, SHLD, LDAX, STAX, XCHG</li>
+          <li><strong>Arithmetic Instructions:</strong> ADD, ADC, SUB, SBB, INR, DCR, INX, DCX, DAD, DAA</li>
+          <li><strong>Logical Instructions:</strong> ANA, ORA, XRA, CMA, CMP, RLC, RRC, RAL, RAR</li>
+          <li><strong>Branching Instructions:</strong> JMP, JNZ, JZ, JC, JNC, CALL, RET, RST, PCHL</li>
+          <li><strong>Machine Control Instructions:</strong> HLT, NOP, RIM, SIM, EI, DI</li>
+        </ol>
+
+        <h3>Flags Register (5 Flags) — MCQ માટે ખૂબ Important</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Flag</th><th>નામ</th><th>Position</th></tr></thead>
+          <tbody>
+            <tr><td>S</td><td>Sign</td><td>D7</td></tr>
+            <tr><td>Z</td><td>Zero</td><td>D6</td></tr>
+            <tr><td>AC</td><td>Auxiliary Carry</td><td>D4</td></tr>
+            <tr><td>P</td><td>Parity</td><td>D2</td></tr>
+            <tr><td>CY</td><td>Carry</td><td>D0</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p>8085 Flag Register માં <strong>5 flags + 3 unused bits = 8 bits</strong></p>
+        </div></div>
+
+        <h3>Important Numerical Facts</h3>
+        <ul>
+          <li>8085 Instruction Set માં કુલ <strong>246 Opcodes</strong> (74 basic instructions)</li>
+          <li>Register pairs: BC, DE, HL (16-bit)</li>
+          <li>Accumulator (A) = 8-bit, બધી Arithmetic/Logic operation માટે વપરાય</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Common Confusions</span><div class="tip-content">
+          <ul>
+            <li>DAD = 16-bit addition (register pair), ADD = 8-bit addition</li>
+            <li>CALL/RET vs JMP — CALL stack પર return address save કરે, JMP નહીં</li>
+            <li>RST n = Software interrupt instruction (8 types: RST 0 to RST 7)</li>
+          </ul>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 4 ============ -->
+    <section class="panel" id="panel-4">
+      <div class="ds-strip"><span class="ds-tag">Topic 04</span><span class="ds-part">i8085&#8209;ASM</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Programming Techniques (8085)</h2></header>
+      <div class="panel-body">
+
+        <h3>મુખ્ય Programming Concepts</h3>
+        <ul>
+          <li><strong>Looping</strong> – Counter use કરી repeat operations (DCR/INR + JNZ)</li>
+          <li><strong>Counting &amp; Time Delay</strong> – Register માં count load કરી loop દ્વારા delay generate</li>
+          <li><strong>Stack</strong> – LIFO (Last In First Out) memory, SP register દ્વારા control
+            <ul>
+              <li>PUSH – Stack માં data store (SP decrement)</li>
+              <li>POP – Stack માંથી data retrieve (SP increment)</li>
+            </ul>
+          </li>
+          <li><strong>Subroutine</strong> – CALL વડે subroutine માં જાય, RET વડે પાછું મુખ્ય program માં આવે</li>
+          <li><strong>Look-up Table</strong> – Code conversion માટે (દા.ત. 7-segment display code)</li>
+        </ul>
+
+        <h3>Time Delay Calculation (Important Numerical Type Question)</h3>
+        <ul>
+          <li>Time Delay = (T-states per loop) × (T-state period) × (Loop count)</li>
+          <li>T-state period = 1/Clock Frequency</li>
+        </ul>
+
+        <h3>Code Conversion Programs (Common Programs)</h3>
+        <ul>
+          <li>BCD to Binary, Binary to BCD</li>
+          <li>ASCII to BCD conversion</li>
+          <li>Block data transfer (memory to memory)</li>
+          <li>Sorting (Ascending/Descending) program logic</li>
+          <li>Largest/Smallest number find કરવાનો program</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p>Multi-byte addition/subtraction માટે Carry flag નો ઉપયોગ થાય (ADC/SBB instructions).</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 5 ============ -->
+    <section class="panel" id="panel-5">
+      <div class="ds-strip"><span class="ds-tag">Topic 05</span><span class="ds-part">i8086</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Advance Microprocessor</h2></header>
+      <div class="panel-body">
+
+        <h3>8086 Microprocessor — Important Upgrade from 8085</h3>
+        <ul>
+          <li><strong>16-bit</strong> Microprocessor (Intel)</li>
+          <li><strong>20-bit Address Bus</strong> → 1 MB memory addressable</li>
+          <li>Internally divided in <strong>2 Units:</strong>
+            <ul>
+              <li><strong>BIU (Bus Interface Unit)</strong> – Instruction fetch, address calculation, bus control</li>
+              <li><strong>EU (Execution Unit)</strong> – Instruction decode &amp; execute</li>
+            </ul>
+          </li>
+          <li><strong>Pipelining</strong> Concept (Fetch and Execute simultaneously) – Speed વધારે</li>
+          <li>Segment Registers: CS, DS, SS, ES (16-bit each)</li>
+          <li>General Registers: AX, BX, CX, DX (16-bit, 8-bit access પણ શક્ય – AH/AL વગેરે)</li>
+        </ul>
+
+        <h3>Microprocessor Evolution Timeline — Important for MCQ</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Processor</th><th>Bit</th><th>Year</th><th>વિશેષતા</th></tr></thead>
+          <tbody>
+            <tr><td>8085</td><td>8-bit</td><td>1976</td><td>Basic processor</td></tr>
+            <tr><td>8086</td><td>16-bit</td><td>1978</td><td>Segmented memory, Pipelining</td></tr>
+            <tr><td>80286</td><td>16-bit</td><td>1982</td><td>Protected mode</td></tr>
+            <tr><td>80386</td><td>32-bit</td><td>1985</td><td>Multitasking, Virtual memory</td></tr>
+            <tr><td>80486</td><td>32-bit</td><td>1989</td><td>Built-in cache, FPU</td></tr>
+            <tr><td>Pentium</td><td>32-bit</td><td>1993</td><td>Superscalar, Dual pipeline</td></tr>
+            <tr><td>Pentium Pro/II/III/IV</td><td>32-bit</td><td>—</td><td>Higher clock speed, MMX</td></tr>
+            <tr><td>Core 2 Duo/i3/i5/i7</td><td>64-bit</td><td>—</td><td>Multi-core architecture</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p><strong>Multi-core, Hyper-threading, Superscalar architecture</strong> — Advance Microprocessor concepts.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 6 ============ -->
+    <section class="panel" id="panel-6">
+      <div class="ds-strip"><span class="ds-tag">Topic 06</span><span class="ds-part">MEM&#8209;SYS</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Main Memory System</h2></header>
+      <div class="panel-body">
+
+        <h3>Memory ના પ્રકાર (Classification) — Very Important Diagram-Based Topic</h3>
+        <p><strong>1. RAM (Random Access Memory) — Volatile</strong></p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>SRAM</th><th>DRAM</th></tr></thead>
+          <tbody>
+            <tr><td>Static, Flip-flop based</td><td>Dynamic, Capacitor based</td></tr>
+            <tr><td>Refresh ની જરૂર નથી</td><td>Refresh ની જરૂર (periodically)</td></tr>
+            <tr><td>Fast, Costly</td><td>Slow, Cheap</td></tr>
+            <tr><td>Cache memory માં વપરાય</td><td>Main memory માં વપરાય</td></tr>
+          </tbody>
+        </table></div>
+
+        <p><strong>2. ROM (Read Only Memory) — Non-Volatile</strong></p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>પ્રકાર</th><th>વર્ણન</th></tr></thead>
+          <tbody>
+            <tr><td>MROM (Mask ROM)</td><td>Manufacturing time programmed, ફેરફાર શક્ય નથી</td></tr>
+            <tr><td>PROM</td><td>એક વખત user દ્વારા program કરી શકાય</td></tr>
+            <tr><td>EPROM</td><td>UV Light દ્વારા Erase કરી શકાય, ફરી program શકાય</td></tr>
+            <tr><td>EEPROM</td><td>Electrically Erasable, byte-by-byte erase</td></tr>
+            <tr><td>Flash Memory</td><td>Block-wise erase, ઝડપી, Pen drive/SSD માં વપરાય</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Memory Hierarchy (Important Diagram)</h3>
+<pre class="diagram">Registers (Fastest, Costly, Least Capacity)
+   ↓
+Cache Memory
+   ↓
+Main Memory (RAM)
+   ↓
+Secondary Storage (HDD/SSD) (Slowest, Cheap, Highest Capacity)</pre>
+
+        <h3>Cache Memory</h3>
+        <ul>
+          <li>CPU અને Main Memory વચ્ચે speed gap ઘટાડવા વપરાય</li>
+          <li>Levels: L1 (CPU સાથે), L2, L3</li>
+          <li>Locality of Reference Principle પર કાર્ય કરે</li>
+        </ul>
+
+        <h3>Virtual Memory</h3>
+        <ul>
+          <li>Secondary storage ને RAM જેવો ઉપયોગ — જ્યારે RAM ઓછી હોય</li>
+          <li>Paging/Segmentation technique વપરાય</li>
+        </ul>
+
+        <h3>Memory Interfacing &amp; Address Decoding</h3>
+        <ul>
+          <li>Memory Map – કયા address range પર કયું memory chip mapped છે</li>
+          <li>Address Decoding Techniques: <strong>Linear Decoding</strong>, <strong>Decoder-based (74138 IC)</strong></li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Numerical Tip</span><div class="tip-content">
+          <p>Memory chip size = (Number of address lines) → 2ⁿ locations × data bus width.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 7 ============ -->
+    <section class="panel" id="panel-7">
+      <div class="ds-strip"><span class="ds-tag">Topic 07</span><span class="ds-part">MCS&#8209;51</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Evolution of Microcontrollers &amp; Introduction to Microcontrollers</h2></header>
+      <div class="panel-body">
+
+        <h3>Microprocessor vs Microcontroller (Repeated Exam Question)</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Microprocessor</th><th>Microcontroller</th></tr></thead>
+          <tbody>
+            <tr><td>CPU only, externally Memory/IO જોડવા પડે</td><td>CPU + RAM + ROM + IO બધું single chip માં</td></tr>
+            <tr><td>General purpose</td><td>Specific/Dedicated application માટે</td></tr>
+            <tr><td>દા.ત. 8085, 8086</td><td>દા.ત. 8051, PIC, AVR</td></tr>
+            <tr><td>Cost વધારે (external components)</td><td>Cost ઓછી, compact</td></tr>
+            <tr><td>Power consumption વધારે</td><td>Power consumption ઓછું</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>Microcontroller નો Evolution</h3>
+        <ul>
+          <li>4-bit → 8-bit (8048, 8051) → 16-bit (8096) → 32-bit (ARM Based)</li>
+          <li>Intel 8051 Family → સૌથી વધારે પ્રખ્યાત 8-bit microcontroller</li>
+        </ul>
+
+        <h3>8051 Microcontroller — Architecture (ખૂબ Important)</h3>
+        <ul>
+          <li><strong>8-bit</strong> Microcontroller (Intel, MCS-51 family)</li>
+          <li><strong>Harvard Architecture</strong></li>
+          <li><strong>40-pin DIP</strong> package</li>
+          <li><strong>4 KB ROM</strong> (on-chip program memory)</li>
+          <li><strong>128 Bytes RAM</strong> (on-chip data memory)</li>
+          <li><strong>4 I/O Ports</strong> (P0, P1, P2, P3) — દરેક 8-bit</li>
+          <li><strong>2 Timers/Counters</strong> (Timer 0, Timer 1 – 16-bit)</li>
+          <li><strong>1 Serial Port</strong> (UART – full duplex)</li>
+          <li><strong>5 Interrupts</strong> (2 External, 2 Timer, 1 Serial)</li>
+          <li><strong>2 (16-bit) Registers:</strong> Program Counter (PC), Data Pointer (DPTR)</li>
+          <li>Oscillator/Clock: External crystal (Common: 11.0592 MHz)</li>
+        </ul>
+
+        <h3>8051 Pin Diagram Important Points</h3>
+        <ul>
+          <li><strong>Port 0</strong> – Address/Data bus (Multiplexed), External memory access માટે</li>
+          <li><strong>Port 1</strong> – General purpose I/O only</li>
+          <li><strong>Port 2</strong> – Higher Address byte (External memory) + I/O</li>
+          <li><strong>Port 3</strong> – Special functions: RXD, TXD, INT0, INT1, T0, T1, WR, RD</li>
+          <li><strong>EA pin</strong> – External Access (Low = external memory use)</li>
+          <li><strong>ALE pin</strong> – Address Latch Enable</li>
+          <li><strong>PSEN</strong> – Program Store Enable (External ROM access માટે)</li>
+          <li><strong>RST pin</strong> – Reset</li>
+        </ul>
+
+        <h3>8051 Memory Organization</h3>
+        <ul>
+          <li><strong>Internal RAM (128 Bytes):</strong>
+            <ul>
+              <li>00H–1FH: Register Banks (4 banks × 8 registers)</li>
+              <li>20H–2FH: Bit-Addressable area</li>
+              <li>30H–7FH: General purpose RAM</li>
+            </ul>
+          </li>
+          <li><strong>SFR (Special Function Registers):</strong> 80H–FFH (દા.ત. ACC, B, PSW, SP, DPTR, Port Latches)</li>
+          <li>External Memory: Program Memory (64KB max) અને Data Memory (64KB max) અલગ-અલગ</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p>8051 માં Program memory અને Data memory ના address space <strong>અલગ</strong> હોય (Harvard) — તેથી MOVC (code) અને MOVX (external data) જેવા જુદા instruction વપરાય.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 8 ============ -->
+    <section class="panel" id="panel-8">
+      <div class="ds-strip"><span class="ds-tag">Topic 08</span><span class="ds-part">i8051&#8209;ASM</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Introduction to Assembly Language Programming (8051)</h2></header>
+      <div class="panel-body">
+
+        <h3>Addressing Modes of 8051 (5 પ્રકાર)</h3>
+        <ol>
+          <li><strong>Immediate</strong> – MOV A, #25H</li>
+          <li><strong>Register</strong> – MOV A, R0</li>
+          <li><strong>Direct</strong> – MOV A, 30H</li>
+          <li><strong>Register Indirect</strong> – MOV A, @R0</li>
+          <li><strong>Indexed</strong> – MOVC A, @A+DPTR (Look-up table માટે)</li>
+        </ol>
+
+        <h3>Basic Instruction Groups</h3>
+        <ul>
+          <li><strong>Data Transfer:</strong> MOV, MOVX, MOVC</li>
+          <li><strong>Arithmetic:</strong> ADD, ADDC, SUBB, INC, DEC, MUL, DIV</li>
+          <li><strong>Logical:</strong> ANL, ORL, XRL, CPL, RL, RR</li>
+          <li><strong>Branching:</strong> JMP, JZ, JNZ, CJNE, DJNZ, CALL, RET</li>
+          <li><strong>Bit Manipulation:</strong> SETB, CLR, CPL (bit-level operations – 8051 ની ખાસિયત)</li>
+        </ul>
+
+        <h3>Simple Programs (Common Exam Programs)</h3>
+        <ul>
+          <li>Two number Addition/Subtraction</li>
+          <li>Block data transfer</li>
+          <li>Delay generation program (loop based)</li>
+          <li>LED blinking logic (Port pin control)</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Important Point</span><div class="tip-content">
+          <p>8051 એ <strong>Bit-addressable</strong> instructions ધરાવે છે (SETB, CLR) — જે 8085 માં નથી.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 9 ============ -->
+    <section class="panel" id="panel-9">
+      <div class="ds-strip"><span class="ds-tag">Topic 09</span><span class="ds-part">i8051&#8209;ADV</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Advance Programming Techniques (8051)</h2></header>
+      <div class="panel-body">
+
+        <h3>Timer/Counter Programming</h3>
+        <ul>
+          <li>Timer 0 &amp; Timer 1 – 16-bit (TH+TL registers)</li>
+          <li><strong>TMOD register</strong> – Mode પસંદ કરવા (Mode 0,1,2,3)</li>
+          <li><strong>TCON register</strong> – Timer Start/Stop Control</li>
+          <li>Modes: Mode 1 (16-bit Timer), Mode 2 (8-bit Auto-reload) સૌથી વધારે વપરાય</li>
+        </ul>
+
+        <h3>Serial Communication Programming</h3>
+        <ul>
+          <li>UART (Universal Asynchronous Receiver Transmitter)</li>
+          <li><strong>SBUF</strong> register – Data Send/Receive Buffer</li>
+          <li><strong>SCON</strong> register – Serial Control</li>
+          <li>Baud Rate – Timer 1 દ્વારા generate થાય</li>
+          <li>Modes: Mode 0 (Synchronous), Mode 1 (8-bit UART, variable baud – most common)</li>
+        </ul>
+
+        <h3>Interrupt Programming</h3>
+        <ul>
+          <li>5 Interrupts: INT0, INT1, Timer0, Timer1, Serial</li>
+          <li><strong>IE register (Interrupt Enable)</strong> – કયા interrupt enable/disable</li>
+          <li><strong>IP register (Interrupt Priority)</strong></li>
+          <li>Interrupt Vector Addresses fixed (દા.ત. External INT0 = 0003H)</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Wireless Exam Special</span><div class="tip-content">
+          <p>Wireless Exam માટે ખાસ Important: Serial Communication (UART) Topic ઊંડાણથી revise કરવો — Wireless equipment માં data transmission/baud rate ના concept directly applicable છે.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 10 ============ -->
+    <section class="panel" id="panel-10">
+      <div class="ds-strip"><span class="ds-tag">Topic 10</span><span class="ds-part">8255/53/59</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 External Peripheral Devices</h2></header>
+      <div class="panel-body">
+
+        <h3>8255 PPI (Programmable Peripheral Interface) — Important</h3>
+        <ul>
+          <li>8-bit Parallel I/O device</li>
+          <li>3 Ports: <strong>Port A, Port B, Port C</strong> (દરેક 8-bit)</li>
+          <li>2 Operating Modes: <strong>Mode 0 (Simple I/O)</strong>, <strong>Mode 1 (Handshaking)</strong>, <strong>Mode 2 (Bidirectional, Port A only)</strong></li>
+          <li><strong>Control Word Register (CWR)</strong> – Port ને Input/Output mode set કરવા</li>
+        </ul>
+
+        <h3>8253/8254 PIT (Programmable Interval Timer)</h3>
+        <ul>
+          <li>3 Independent 16-bit Counters</li>
+          <li>6 Operating Modes (Mode 0 to Mode 5)</li>
+          <li>Timing/Delay generate કરવા, Square wave generate કરવા વપરાય</li>
+        </ul>
+
+        <h3>8259 PIC (Programmable Interrupt Controller)</h3>
+        <ul>
+          <li>Multiple interrupt requests ને manage કરે (8 interrupt lines, cascade કરી 64 સુધી expand)</li>
+          <li>Priority resolve કરે, single INTR microprocessor ને મોકલે</li>
+        </ul>
+
+        <h3>8251 USART (Serial Communication IC)</h3>
+        <ul>
+          <li>Synchronous + Asynchronous Serial Data Transfer</li>
+          <li>Parallel to Serial અને Serial to Parallel conversion</li>
+        </ul>
+
+        <h3>ADC/DAC Interfacing</h3>
+        <ul>
+          <li><strong>ADC (Analog to Digital Converter)</strong> – Sensor data ને digital માં convert (દા.ત. ADC 0808/0809)</li>
+          <li><strong>DAC (Digital to Analog Converter)</strong> – Digital signal ને analog માં convert (દા.ત. DAC 0808)</li>
+          <li>Successive Approximation, Flash type ADC common types</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p>Wireless communication systems માં ADC/DAC interfacing concept (signal ↔ digital conversion) મહત્વનો છે.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 11 ============ -->
+    <section class="panel" id="panel-11">
+      <div class="ds-strip"><span class="ds-tag">Topic 11</span><span class="ds-part">ARM&#8209;RISC</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>📘 Advanced RISC Machines (ARM)</h2></header>
+      <div class="panel-body">
+
+        <h3>ARM Processor — Modern &amp; Important Topic</h3>
+        <ul>
+          <li><strong>ARM = Advanced RISC Machine</strong></li>
+          <li><strong>RISC Architecture</strong> based – Reduced instructions, fixed-length, single-cycle execution</li>
+          <li><strong>Load-Store Architecture</strong> – માત્ર LOAD/STORE instructions memory access કરે, બાકી registers વચ્ચે operations</li>
+          <li><strong>32-bit / 64-bit</strong> Processor (Modern ARM Cortex – 64-bit)</li>
+          <li>Mobile phones, Embedded systems, IoT devices માં વ્યાપક ઉપયોગ</li>
+        </ul>
+
+        <h3>ARM ની વિશેષતાઓ</h3>
+        <ul>
+          <li><strong>Pipelining</strong> (3-stage, 5-stage pipeline – speed વધારે)</li>
+          <li><strong>Large Register Set</strong> (16 General Purpose Registers – R0 to R15)</li>
+          <li><strong>Thumb Instruction Set</strong> – 16-bit compressed instructions (Code size ઘટાડવા)</li>
+          <li><strong>Low Power Consumption</strong> – Mobile/Embedded device માટે Ideal</li>
+          <li><strong>Multiple Processor Modes:</strong> User, FIQ, IRQ, Supervisor, Abort, Undefined</li>
+        </ul>
+
+        <h3>ARM Architecture Versions (Awareness Level)</h3>
+        <ul>
+          <li>ARMv1 to ARMv8 (Cortex-A, Cortex-M, Cortex-R series)</li>
+          <li>Cortex-M – Microcontroller applications</li>
+          <li>Cortex-A – Application processors (Smartphones)</li>
+          <li>Cortex-R – Real-time applications</li>
+        </ul>
+
+        <div class="tip"><span class="tip-pin">Exam Tip</span><div class="tip-content">
+          <p><strong>RISC vs CISC ફરી revise કરો</strong> – ARM (RISC) vs 8086/Pentium (CISC) comparison MCQ માં વારંવાર પુછાય છે.</p>
+        </div></div>
+
+      </div>
+    </section>
+
+    <!-- ============ TOPIC 12 — SUMMARY ============ -->
+    <section class="panel" id="panel-12">
+      <div class="ds-strip"><span class="ds-tag">Summary</span><span class="ds-part">ALL&#8209;CHIPS</span><span class="ds-rule"></span><span>Rev&nbsp;A</span></div>
+      <header class="panel-head"><h2>🎯 Quick Revision Summary Table (Last Minute Check)</h2></header>
+      <div class="panel-body">
+
+        <div class="table-wrap"><table>
+          <thead><tr><th>Processor</th><th>Bit</th><th>Address Bus</th><th>Architecture</th><th>વિશેષતા</th></tr></thead>
+          <tbody>
+            <tr><td>8085</td><td>8-bit</td><td>16-bit</td><td>Von Neumann</td><td>40-pin, 3MHz</td></tr>
+            <tr><td>8086</td><td>16-bit</td><td>20-bit</td><td>Von Neumann</td><td>Pipelining, Segments</td></tr>
+            <tr><td>8051</td><td>8-bit</td><td>16-bit</td><td>Harvard</td><td>4KB ROM, 128B RAM</td></tr>
+            <tr><td>ARM</td><td>32/64-bit</td><td>—</td><td>RISC, Load-Store</td><td>Low power, Pipelined</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>છેલ્લે યાદ રાખવા જેવા Numbers</h3>
+        <ul>
+          <li>8085 → 40 pins, 16-bit address, 8-bit data, 5 flags, 246 opcodes</li>
+          <li>8051 → 40 pins, 4KB ROM, 128B RAM, 4 ports, 2 timers, 5 interrupts</li>
+          <li>8086 → 20-bit address bus, 1MB memory, BIU+EU</li>
+          <li>8255 → 3 ports (A,B,C), 3 modes</li>
+          <li>ARM → 16 registers (R0–R15), RISC, Load-Store architecture</li>
+        </ul>
+
+        <p class="closing-line">Revision Notes તૈયાર — Wireless PSI Exam Microprocessor &amp; Microcontroller Chapter</p>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  (function(){
+    var pins = document.querySelectorAll('.pin');
+    var panels = document.querySelectorAll('.panel');
+    var sidebar = document.getElementById('sidebar');
+    var menuBtn = document.getElementById('menuBtn');
+
+    pins.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var targetId = btn.getAttribute('data-target');
+
+        pins.forEach(function(p){ p.classList.remove('active'); });
+        btn.classList.add('active');
+
+        panels.forEach(function(panel){
+          panel.classList.toggle('active', panel.id === targetId);
+        });
+
+        document.getElementById('mainContent').scrollTo({top:0, behavior:'auto'});
+        document.body.classList.remove('sidebar-open');
+      });
+    });
+
+    menuBtn.addEventListener('click', function(){
+      document.body.classList.toggle('sidebar-open');
+    });
+
+    document.addEventListener('click', function(e){
+      if (document.body.classList.contains('sidebar-open') &&
+          !sidebar.contains(e.target) && e.target !== menuBtn && !menuBtn.contains(e.target)) {
+        document.body.classList.remove('sidebar-open');
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
